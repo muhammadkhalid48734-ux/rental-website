@@ -1,0 +1,46 @@
+---
+// Interactive mini booking calendar. Dates are made up; nothing is sent anywhere.
+import { money } from "../lib/pricing.js";
+const { id, items, seed = 1, heading = "Check a date", businessName = "", ctaLabel = "Request this date", style = "" } = Astro.props;
+---
+<div class="booking" data-booking data-seed={seed} data-business={businessName} style={style}>
+  <div class="booking__top">
+    <h3 id={`${id}-h`}>{heading}</h3>
+    <span class="tag tag--sample">Sample</span>
+  </div>
+
+  <div class="cal" role="group" aria-labelledby={`${id}-h`}>
+    <div class="cal__nav">
+      <button type="button" class="cal__navbtn" data-prev aria-label="Previous month">‹</button>
+      <p class="cal__month" data-month aria-live="polite">&nbsp;</p>
+      <button type="button" class="cal__navbtn" data-next aria-label="Next month">›</button>
+    </div>
+    <div class="cal__dow" aria-hidden="true"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+    <div class="cal__grid" data-grid></div>
+    <ul class="cal__legend" aria-hidden="true">
+      <li><i class="sw sw--open"></i>Open</li>
+      <li><i class="sw sw--booked"></i>Booked</li>
+      <li><i class="sw sw--pick"></i>Your pick</li>
+    </ul>
+    <noscript><p class="cal__nojs">Turn on JavaScript to try the sample calendar.</p></noscript>
+  </div>
+
+  <fieldset class="pick">
+    <legend>Pick an item</legend>
+    {items.map((it, i) => (
+      <label class="pick__opt">
+        <input type="radio" name={`${id}-item`} value={it.name} data-price={it.price} checked={i === 0} />
+        <span class="pick__name">{it.name}</span>
+        <span class="pick__price mono">{money(it.price)}</span>
+      </label>
+    ))}
+  </fieldset>
+
+  <p class="booking__summary" data-summary aria-live="polite">Tap an open date.</p>
+  <button type="button" class="btn btn--primary btn--block" data-request disabled>{ctaLabel}</button>
+  <p class="booking__status" data-status role="status"></p>
+</div>
+<script>
+  import { initBooking } from "../scripts/booking.js";
+  document.querySelectorAll("[data-booking]").forEach(initBooking);
+</script>

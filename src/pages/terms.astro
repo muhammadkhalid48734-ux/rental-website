@@ -1,0 +1,40 @@
+---
+import Legal from "../layouts/Legal.astro";
+import Val from "../components/Val.astro";
+import ContactLink from "../components/ContactLink.astro";
+import { config } from "../config.js";
+import { byId, money } from "../lib/pricing.js";
+const [website, books, full] = config.packages;
+---
+<Legal title="Terms" description="Plain-English terms for the free demo, the plans, payment, ownership and cancelling.">
+  <p>These terms explain how working with <Val v={config.studioName} /> works. If anything here is unclear, ask us before you pay.</p>
+
+  <h2>The free demo</h2>
+  <p>The demo is free and private. We build it from your public page after you ask for it. You pay only if you want it live. If you do not like it, you pay nothing. We do not publish your demo without your OK.</p>
+
+  <h2>What we sell</h2>
+  <p>We sell three plans: {website.name} ({money(website.setup)} one time, no monthly fee), {books.name} ({money(books.setup)} plus {money(books.monthly)} per month), and {full.name} ({money(full.setup)} plus {money(full.monthly)} per month). The home page lists exactly what each plan includes, and the add-ons and their prices.</p>
+
+  <h2>Payment</h2>
+  <p>You pay only after you have seen the demo. <Val v={config.paymentMethod} /></p>
+
+  <h2>No contract</h2>
+  <p>There is no contract. You can cancel a monthly plan anytime. {config.policies.stopPaying}</p>
+
+  <h2>What is yours</h2>
+  <p>Your website, domain and photos are yours. You keep the right to use your own business name, logo and photos. We keep the right to show that we built the site only if you say yes.</p>
+
+  <h2>Revisions and edits</h2>
+  <p>Each plan includes a number of revision rounds and, on the monthly plans, minutes of edits per month. Anything beyond that is billed as an add-on at the price on the home page.</p>
+
+  <h2>Text message reminders</h2>
+  <p>{config.smsAvailable
+    ? "Text reminders only go to customers who have agreed to get them. Your customers must be asked to agree at booking, and every text lets them reply STOP. Provider costs may apply."
+    : "Text reminders are coming soon. When they launch, they will only go to customers who have agreed to get them."}</p>
+
+  <h2>What we can and cannot promise</h2>
+  <p>We do our best to keep your site working and your reminders going out. Websites and online services can fail, and we cannot promise they never will. The sample websites and the sample calendar on our site are made up, and show what a site could look like. They are not real businesses and not a promise of results.</p>
+
+  <h2>Contact and disputes</h2>
+  <p>Talk to us first at <ContactLink kind="email" />. Governing law and where disputes are handled: <Val v="TODO: governing law and venue (get legal advice)" />.</p>
+</Legal>

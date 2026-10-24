@@ -1,0 +1,20 @@
+---
+// Renders NOTHING until config.testimonials has real entries with permission: true.
+import { config } from "../config.js";
+const items = (config.testimonials || []).filter((t) => t && t.permission === true && t.quote && t.name);
+---
+{items.length > 0 && (
+  <section class="section section--soft" id="kind-words" aria-labelledby="kind-title">
+    <div class="wrap">
+      <div class="section__head"><h2 id="kind-title">What owners say</h2></div>
+      <ul class="quotes">
+        {items.map((t) => (
+          <li>
+            <blockquote><p>“{t.quote}”</p></blockquote>
+            <p class="quotes__who"><strong>{t.name}</strong>{t.business && <>, {t.business}</>}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

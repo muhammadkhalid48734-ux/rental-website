@@ -1,0 +1,92 @@
+---
+import { config } from "../config.js";
+import { convertHours, parseHHMM } from "../lib/hours.js";
+import { hoursSentence } from "../lib/faq.js";
+import Val from "./Val.astro";
+import ContactLink from "./ContactLink.astro";
+
+const { start, end } = config.supportHours;
+const zones = convertHours(config.timezone, start, end);
+---
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="wrap about">
+    <div class="about__photo">
+      {config.ownerPhoto ? (
+        <img src={config.ownerPhoto} alt={`Photo of ${config.ownerName}`} width="320" height="320" loading="lazy" decoding="async" />
+      ) : (
+        <div class="photo-ph" role="img" aria-label="Owner photo goes here">
+          <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true" focusable="false"><circle cx="60" cy="46" r="22" fill="none" stroke="#55617a" stroke-width="3" /><path d="M20 108c4-24 20-34 40-34s36 10 40 34" fill="none" stroke="#55617a" stroke-width="3" stroke-linecap="round" /></svg>
+          <span>Photo placeholder</span>
+        </div>
+      )}
+    </div>
+    <div class="about__body">
+      <h2 id="about-title">Who you are dealing with</h2>
+      <p class="about__lead"><strong>A small remote studio based in Pakistan.</strong> We work online.</p>
+      <p class="about__name"><strong><Val v={config.ownerName} /></strong>, <Val v={config.ownerRole} /></p>
+      <p>We build booking websites for bounce house and party rental businesses in the US.</p>
+      <p><Val v={config.ownerBio} /></p>
+      <p>Everything happens online, by email and WhatsApp, so you can reach us from the truck between deliveries.</p>
+
+      <div class="hours" data-hours data-tz={config.timezone} data-start={start} data-end={end}>
+        <h3>Support hours</h3>
+        <p class="hours__studio" data-hours-studio>
+          {parseHHMM(start) && parseHHMM(end) ? hoursSentence() : <Val v="TODO: supportHours" />}
+        </p>
+        {zones ? (
+          <>
+            <ul class="hours__list" data-hours-list>
+              {zones.map((z) => (
+                <li><span>{z.label}</span><span class="mono">{z.range} {z.abbr}</span></li>
+              ))}
+            </ul>
+            <p class="hours__fine" data-hours-fine>US times shown for the day this page was built. Daylight saving can move them by an hour.</p>
+          </>
+        ) : (
+          <p class="hours__fine">US times appear here once support hours are filled in.</p>
+        )}
+        <p class="hours__mine" data-hours-mine hidden></p>
+        <p class="hours__reply"><strong>Reply time:</strong> <Val v={config.replyTime} />. <strong>Demos:</strong> ready {config.demoTurnaround}.</p>
+      </div>
+
+      <p class="about__links">
+        <ContactLink kind="email" class="btn btn--ghost" label="Email us" />
+        <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />
+      </p>
+    </div>
+  </div>
+</section>
+<script>
+  import { convertHours } from "../lib/hours.js";
+  const root = document.querySelector("[data-hours]");
+  if (root) {
+    const { tz, start, end } = root.dataset;
+    const zones = convertHours(tz, start, end);
+    const list = root.querySelector("[data-hours-list]");
+    if (zones && list) {
+      list.replaceChildren(
+        ...zones.map((z) => {
+          const li = document.createElement("li");
+          const a = document.createElement("span");
+          a.textContent = z.label;
+          const b = document.createElement("span");
+          b.className = "mono";
+          b.textContent = `${z.range} ${z.abbr}`;
+          li.append(a, b);
+          return li;
+        })
+      );
+      const fine = root.querySelector("[data-hours-fine]");
+      if (fine) fine.hidden = true;
+      try {
+        const mine = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const out = convertHours(tz, start, end, [{ id: mine, label: "Your time" }]);
+        const el = root.querySelector("[data-hours-mine]");
+        if (out && el) {
+          el.textContent = `In your time zone: ${out[0].range} ${out[0].abbr}`;
+          el.hidden = false;
+        }
+      } catch {}
+    }
+  }
+</script>

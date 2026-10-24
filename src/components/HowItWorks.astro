@@ -1,0 +1,37 @@
+---
+import { config } from "../config.js";
+import { cap } from "../lib/pricing.js";
+const steps = [
+  { n: "01", title: "Send us your page", body: "Your Instagram or Facebook page is enough. Send the link in the form below, or reply to our message." },
+  { n: "02", title: "We build a private demo", body: `We build a demo for your business that only you can see. Ready ${config.demoTurnaround}.` },
+  { n: "03", title: "You decide", body: "Change anything, launch it on your domain, or walk away. You pay only if you want it live." }
+];
+---
+<section class="section section--soft" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="how-title">Three steps, and you stay in charge</h2>
+      <p>You never pay before you have seen your demo.</p>
+    </div>
+    <div class="how">
+      <ol class="steps">
+        {steps.map((s) => (
+          <li class="step">
+            <span class="step__n mono" aria-hidden="true">{s.n}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+      <aside class="need" aria-labelledby="need-title">
+        <h3 id="need-title">What I need from you</h3>
+        <ul>
+          <li>Your business name</li>
+          <li>The area you serve</li>
+          <li>Your items and prices, if you have them</li>
+          <li>OK to use a few of your photos for the private demo</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>

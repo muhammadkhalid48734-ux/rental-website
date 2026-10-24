@@ -1,0 +1,48 @@
+---
+import { config } from "../config.js";
+const [, books, full] = config.packages;
+const items = [
+  {
+    when: "10pm, a message",
+    said: "“Is this available Saturday?”",
+    fix: "Your open dates and prices are on the page, so people check before they message you.",
+    calendar: false
+  },
+  {
+    when: "Saturday morning",
+    said: "“Wait. Did I already promise that one?”",
+    fix: "Once a date is booked, it is blocked on your site for the next customer.",
+    calendar: true
+  },
+  {
+    when: "Friday night",
+    said: "“They never confirmed. Or they forgot.”",
+    fix: "Customers get a confirmation email and a reminder before the event.",
+    calendar: true
+  },
+  {
+    when: "After every party",
+    said: "“Great parties, and almost no Google reviews.”",
+    fix: "A short review request goes out after the event, with your Google link.",
+    calendar: true
+  }
+];
+---
+<section class="section" id="familiar" aria-labelledby="familiar-title">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="familiar-title">Sound familiar?</h2>
+      <p>Four things rental owners say. Each one has a fix.</p>
+    </div>
+    <ol class="pains">
+      {items.map((p) => (
+        <li class="pain">
+          <p class="pain__when">{p.when}</p>
+          <p class="pain__said">{p.said}</p>
+          <p class="pain__fix"><span class="pain__fixlabel">The fix</span> {p.fix}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="pains__note">Fixes 2, 3 and 4 come with the {books.name} and {full.name} plans.</p>
+  </div>
+</section>

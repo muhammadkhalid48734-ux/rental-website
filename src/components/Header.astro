@@ -1,0 +1,19 @@
+---
+import { config } from "../config.js";
+import Val from "./Val.astro";
+const { cta = true, home = "/" } = Astro.props;
+---
+<header class="site-header">
+  <div class="wrap site-header__row">
+    <a class="brand" href={home} aria-label={`${config.studioName} home`}>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect width="32" height="32" rx="9" fill="#2447d6" />
+        <path d="M6 24V15a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v9z" fill="#fff" />
+        <circle cx="10" cy="9" r="3" fill="#ffc83d" /><circle cx="22" cy="9" r="3" fill="#ffc83d" />
+        <path d="M13 24v-5a3 3 0 0 1 6 0v5z" fill="#2447d6" />
+      </svg>
+      <span><Val v={config.studioName} /></span>
+    </a>
+    {cta && <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>}
+  </div>
+</header>

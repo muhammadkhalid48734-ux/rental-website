@@ -1,0 +1,7 @@
+---
+// Prints a config value. A TODO placeholder is marked in dev builds only.
+import { isTodo } from "../lib/pricing.js";
+const { v } = Astro.props;
+const mark = import.meta.env.DEV && isTodo(v);
+---
+{mark ? <mark class="todo">{v}</mark> : v}

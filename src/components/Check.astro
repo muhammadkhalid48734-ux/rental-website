@@ -1,0 +1,8 @@
+---
+const { kind = "yes" } = Astro.props;
+---
+{kind === "yes" ? (
+  <svg class="ic ic--yes" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" fill="#e4f5ec" /><path d="M5.5 10.5l3 3 6-7" fill="none" stroke="#0b7a46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+) : (
+  <svg class="ic ic--no" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6 10h8" stroke="#55617a" stroke-width="2" stroke-linecap="round" /></svg>
+)}

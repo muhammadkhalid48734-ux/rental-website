@@ -1,0 +1,29 @@
+---
+import { config } from "../config.js";
+import Val from "./Val.astro";
+const points = [
+  { h: "It’s yours", p: "Your website, domain and photos are always yours." },
+  { h: "No contract", p: "Cancel anytime." },
+  { h: "Don’t like the demo? You pay nothing", p: "The demo is free and private. You pay only if you want it live." },
+  { h: "How payment works", p: "You only pay after you’ve seen the demo.", extra: config.paymentMethod }
+];
+---
+<section class="section" id="protected" aria-labelledby="protected-title">
+  <div class="wrap protect">
+    <div class="section__head">
+      <h2 id="protected-title">You can’t get burned</h2>
+      <p>Four promises, in plain words.</p>
+    </div>
+    <ul class="protect__list">
+      {points.map((x) => (
+        <li>
+          <svg class="protect__ic" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false"><circle cx="14" cy="14" r="14" fill="#ffc83d" /><path d="M8 14.5l4 4 8-9" fill="none" stroke="#0f1a33" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <div>
+            <h3>{x.h}</h3>
+            <p>{x.p}{x.extra && <> <Val v={x.extra} /></>}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

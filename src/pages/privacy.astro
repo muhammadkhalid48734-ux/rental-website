@@ -1,0 +1,50 @@
+---
+import Legal from "../layouts/Legal.astro";
+import Val from "../components/Val.astro";
+import ContactLink from "../components/ContactLink.astro";
+import { config } from "../config.js";
+const a = config.analytics;
+---
+<Legal title="Privacy" description="What the demo request form collects, how it is used, and how to ask us to delete it. We do not sell your data.">
+  <p>This is who we are and what we do with the little information you give us. We have tried to keep it short.</p>
+
+  <h2>Who we are</h2>
+  <p><Val v={config.studioName} /> is a small remote studio based in {config.country}. We build booking websites for bounce house and party rental businesses in the US. You can reach us at <ContactLink kind="email" />.</p>
+
+  <h2>What the form collects</h2>
+  <p>When you ask for a free demo, the form collects:</p>
+  <ul>
+    <li>Your business name and city.</li>
+    <li>The link or name of your Instagram or Facebook page.</li>
+    <li>Your email address.</li>
+    <li>Your message, if you write one.</li>
+    <li>Your tick in the box saying it is OK to contact you about the demo.</li>
+  </ul>
+  <p>We do not ask for payment details or passwords on this site.</p>
+
+  <h2>How we use it</h2>
+  <p>We use it to look at your public page, build your private demo, and reply to you about it. That is all. We do not use it for anything else without asking you first.</p>
+
+  <h2>Where it goes</h2>
+  <p>Your answers are sent to a form service (<Val v={config.formProvider} />) and then to our inbox. We read them in {config.country}. The form service handles them for us and may keep a copy while we use their service.</p>
+
+  <h2>Your demo and your photos</h2>
+  <p>If you say yes, we use a few photos from your own public page to build your private demo. Only you and we can see it. We do not publish it without your OK. If you decide not to go live, tell us and we delete the demo and the photos.</p>
+
+  <h2>Messages we send you</h2>
+  <p>We may message you on Instagram or Facebook, or by email. {config.policies.outreachDisclosure} If you do not want messages from us, email <ContactLink kind="email" /> and we will stop.</p>
+
+  <h2>Selling data</h2>
+  <p>We do not sell your data, and we do not rent it or trade it.</p>
+
+  <h2>Cookies and analytics</h2>
+  {a.enabled
+    ? <p>This site uses a privacy-friendly analytics tool that counts visits without cookies and without following you around the web. It does not collect your name or email.</p>
+    : <p>This site does not use analytics or advertising trackers. The sample calendar on the home page runs in your browser and sends nothing to us.</p>}
+
+  <h2>How to ask us to delete your data</h2>
+  <p>Email <ContactLink kind="email" /> and say what you want deleted. We will delete it and tell you when it is done. You can also ask us what we hold about you.</p>
+
+  <h2>Changes</h2>
+  <p>If we change this page, we will change the date at the top.</p>
+</Legal>

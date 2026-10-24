@@ -1,0 +1,19 @@
+---
+import Inflatable from "./Inflatable.astro";
+const { sample } = Astro.props;
+const t = sample.theme;
+const style = `--p:${t.primary};--pd:${t.dark};--a:${t.accent};--sf:${t.soft};--i-a:${t.primary};--i-b:${t.accent};--i-c:#fff;`;
+---
+<div class="desk" style={style} aria-hidden="true">
+  <div class="desk__bar"><b>{sample.name}</b><span><i></i><i></i><i></i></span><em>Book Now</em></div>
+  <div class="desk__hero">
+    <div><p>{sample.heroLine}</p><span class="mini__btn">Book Now</span></div>
+    <Inflatable kind={sample.hero} />
+  </div>
+  <div class="desk__chips">
+    {sample.items.slice(0, 2).map((it) => (
+      <span class="desk__chip">{it.name} <b class="mono">${it.price}</b></span>
+    ))}
+  </div>
+  <span class="mini__sash">Sample site</span>
+</div>

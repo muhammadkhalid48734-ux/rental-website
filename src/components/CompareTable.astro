@@ -1,0 +1,91 @@
+---
+import { config } from "../config.js";
+import { priceLine } from "../lib/pricing.js";
+import Check from "./Check.astro";
+
+const cell = (row, i) => {
+  const v = row.values[i];
+  if (row.sms && v === true && !config.smsAvailable) return { kind: "soon" };
+  if (v === true) return { kind: "yes" };
+  if (v === false) return { kind: "no" };
+  return { kind: "text", text: v };
+};
+---
+<div class="compare" id="compare">
+  <h3>Compare plans</h3>
+
+  <div class="compare__table-wrap">
+    <table class="compare__table">
+      <caption class="sr-only">What each plan includes</caption>
+      <thead>
+        <tr>
+          <th scope="col"><span class="sr-only">Feature</span></th>
+          {config.packages.map((p) => (
+            <th scope="col" class:list={[p.recommended && "is-rec"]}>
+              {p.name}
+              {p.recommended && <span class="tag tag--rec">Recommended</span>}
+            </th>
+          ))}
+        </tr>
+        <tr class="compare__prices">
+          <th scope="row">Price</th>
+          {config.packages.map((p) => {
+            const pl = priceLine(p);
+            return <td class:list={[p.recommended && "is-rec"]}><span class="mono">{pl.setup}</span> <span class="compare__sub">{pl.monthly}</span></td>;
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {config.compare.map((row) => (
+          <tr>
+            <th scope="row">{row.label}</th>
+            {config.packages.map((p, i) => {
+              const c = cell(row, i);
+              return (
+                <td class:list={[p.recommended && "is-rec"]}>
+                  {c.kind === "yes" && <><Check /><span class="sr-only">Included</span></>}
+                  {c.kind === "no" && <><Check kind="no" /><span class="sr-only">Not included</span></>}
+                  {c.kind === "soon" && <span class="tag tag--soon">Coming soon</span>}
+                  {c.kind === "text" && c.text}
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="compare__acc">
+    {config.packages.map((p) => {
+      const pl = priceLine(p);
+      return (
+        <details class="acc">
+          <summary>
+            <span class="acc__name">{p.name}</span>
+            <span class="acc__price mono">{pl.setup}{p.monthly ? ` + ${pl.monthly.replace("+ ", "")}` : ""}</span>
+          </summary>
+          <ul class="acc__list">
+            {config.compare.map((row) => {
+              const c = cell(row, config.packages.indexOf(p));
+              return (
+                <li>
+                  {c.kind === "yes" && <Check />}
+                  {c.kind === "no" && <Check kind="no" />}
+                  {(c.kind === "text" || c.kind === "soon") && <span class="ic" aria-hidden="true"></span>}
+                  <span>
+                    {row.label}
+                    {c.kind === "no" && <span class="sr-only">: not included</span>}
+                    {c.kind === "yes" && <span class="sr-only">: included</span>}
+                    {c.kind === "text" && <span class="acc__val">: {c.text}</span>}
+                    {c.kind === "soon" && <> <span class="tag tag--soon">Coming soon</span></>}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </details>
+      );
+    })}
+  </div>
+</div>

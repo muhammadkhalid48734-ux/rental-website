@@ -1,0 +1,33 @@
+/* Design tokens first. Everything else in the stylesheets uses these. */
+:root {
+  /* identity */
+  --blue: #2447d6;
+  --blue-ink: #12236b;
+  --sun: #ffc83d;
+  --ink: #0f1a33;
+  --muted: #55617a;
+  --bg: #ffffff;
+  --soft: #f2f5fb;
+  --line: #dde3f0;
+
+  /* semantic */
+  --ok: #0b7a46;
+  --ok-bg: #e4f5ec;
+  --warn: #7a4b00;
+  --warn-bg: #fff3d1;
+  --err: #b3261e;
+  --err-bg: #fdeceb;
+
+  /* type */
+  --font-head: "Bricolage Grotesque", "Bricolage Fallback", system-ui, sans-serif;
+  --font-body: "Figtree", "Figtree Fallback", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* shape + space */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --gutter: clamp(16px, 5vw, 40px);
+  --maxw: 1120px;
+  --tap: 44px;
+  --shadow: 0 1px 2px rgba(15, 26, 51, 0.06), 0 8px 24px rgba(15, 26, 51, 0.08);
+}

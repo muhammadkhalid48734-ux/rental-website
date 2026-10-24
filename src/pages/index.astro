@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import PainPoints from "../components/PainPoints.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import LiveSample from "../components/LiveSample.astro";
+import SampleGallery from "../components/SampleGallery.astro";
+import Packages from "../components/Packages.astro";
+import Protection from "../components/Protection.astro";
+import Testimonials from "../components/Testimonials.astro";
+import About from "../components/About.astro";
+import Faq from "../components/Faq.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Footer from "../components/Footer.astro";
+import StickyCta from "../components/StickyCta.astro";
+import { config } from "../config.js";
+import { isTodo } from "../lib/pricing.js";
+import { professionalService } from "../lib/jsonld.js";
+
+const base = "Booking websites for bounce house and party rental businesses";
+const title = isTodo(config.studioName) ? base : `${base} | ${config.studioName}`;
+const description =
+  "Booking websites for bounce house and party rental owners. Get a free private demo. You only pay if you want it live.";
+const site = Astro.site.toString().replace(/\/$/, "");
+---
+<Base title={title} description={description} jsonld={professionalService(site)}>
+  <Header />
+  <main id="main">
+    <Hero />
+    <PainPoints />
+    <HowItWorks />
+    <LiveSample />
+    <SampleGallery />
+    <Packages />
+    <Protection />
+    <Testimonials />
+    <About />
+    <Faq />
+    <ContactForm />
+  </main>
+  <Footer />
+  <StickyCta />
+</Base>

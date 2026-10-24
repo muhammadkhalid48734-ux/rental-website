@@ -1,0 +1,21 @@
+---
+import Base from "./Base.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { config } from "../config.js";
+import Val from "../components/Val.astro";
+const { title, description } = Astro.props;
+---
+<Base title={`${title} | ${config.studioName.startsWith("TODO") ? "Booking websites for rental businesses" : config.studioName}`} description={description}>
+  <Header cta={false} />
+  <main id="main" class="legal">
+    <div class="wrap legal__wrap">
+      <p class="legal__draft" role="note"><strong>Draft, review before launch.</strong> This page is a plain-English draft and has not been reviewed by a lawyer.</p>
+      <h1>{title}</h1>
+      <p class="legal__meta">Last updated: <Val v={config.legalLastUpdated} /></p>
+      <slot />
+      <p><a href="/">Back to the home page</a></p>
+    </div>
+  </main>
+  <Footer />
+</Base>

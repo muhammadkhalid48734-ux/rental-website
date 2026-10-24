@@ -1,0 +1,114 @@
+---
+import Base from "../../layouts/Base.astro";
+import Inflatable from "../../components/Inflatable.astro";
+import BookingSample from "../../components/BookingSample.astro";
+import { samples, sampleBySlug } from "../../samples/data.js";
+import { config } from "../../config.js";
+import { isTodo, money } from "../../lib/pricing.js";
+
+export function getStaticPaths() {
+  return samples.map((s) => ({ params: { slug: s.slug } }));
+}
+const sample = sampleBySlug(Astro.params.slug);
+const t = sample.theme;
+const style = `--s-p:${t.primary};--s-pd:${t.dark};--s-a:${t.accent};--s-sf:${t.soft};--i-a:${t.primary};--i-b:${t.accent};--i-c:#fff;`;
+const studio = isTodo(config.studioName) ? "the studio that made this page" : config.studioName;
+const id = sample.slug;
+---
+<Base
+  title={`${sample.name} (sample site)`}
+  description={`A sample bounce house rental website for a made-up business. ${sample.blurb}`}
+  noindex={!config.indexSampleSites}
+>
+  <div class="sample-ribbon">
+    <span class="sample-ribbon__tag">Sample site</span>
+    <span class="sample-ribbon__text">A made-up business. Nothing here can be booked.</span>
+    <a href="/#samples">Back to all samples</a>
+  </div>
+
+  <div class="ss" style={style}>
+    <header class="ss__header">
+      <div class="wrap ss__row">
+        <a class="ss__brand" href={`/samples/${sample.slug}/`}>{sample.name}</a>
+        <nav aria-label="Sample site" class="ss__nav">
+          <a href="#items">Items</a>
+          <a href="#dates">Check a date</a>
+          <a href="#faq">Questions</a>
+        </nav>
+        <a class="ss__btn ss__btn--small" href="#dates">Book Now</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="ss__hero">
+        <div class="wrap ss__herogrid">
+          <div>
+            <h1>{sample.heroLine}</h1>
+            <p>{sample.heroSub}</p>
+            <a class="ss__btn" href="#dates">Book Now</a>
+            <p class="ss__fine">Serving Your Town and nearby. Sample details only.</p>
+          </div>
+          <div class="ss__art"><Inflatable kind={sample.hero} label={`Illustration of an inflatable ${sample.hero}`} /></div>
+        </div>
+      </section>
+
+      <section class="ss__section" id="items" aria-labelledby={`${id}-items`}>
+        <div class="wrap">
+          <h2 id={`${id}-items`}>Our inflatables</h2>
+          <p class="ss__sub">Prices are per day. These prices are made up for this sample.</p>
+          <ul class="ss__items">
+            {sample.items.map((it) => (
+              <li>
+                <div class="ss__itemart"><Inflatable kind={it.kind} /></div>
+                <h3>{it.name}</h3>
+                <p>{it.note}</p>
+                <p class="ss__price"><span class="mono">{money(it.price)}</span> per day</p>
+                <a class="ss__link" href="#dates">Check dates<span class="sr-only"> for {it.name}</span></a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section class="ss__section ss__section--tint" id="dates" aria-labelledby={`${id}-dates`}>
+        <div class="wrap ss__datesgrid">
+          <div>
+            <h2 id={`${id}-dates`}>See what is open</h2>
+            <p class="ss__sub">Greyed dates are taken. Tap an open date, pick an item and send your request.</p>
+            <ol class="ss__how">
+              <li>Pick a date and an item.</li>
+              <li>Send your request. It goes to the owner by email.</li>
+              <li>You get a confirmation and a reminder before your party.</li>
+            </ol>
+          </div>
+          <BookingSample id={`bk-${id}`} items={sample.items.map((i) => ({ name: i.name, price: i.price }))} seed={samples.indexOf(sample) + 2} heading="Check a date" ctaLabel="Request this date" />
+        </div>
+      </section>
+
+      <section class="ss__section" id="faq" aria-labelledby={`${id}-faq`}>
+        <div class="wrap ss__faq">
+          <h2 id={`${id}-faq`}>Questions</h2>
+          <div>
+            {sample.faq.map(([q, a]) => (
+              <details class="faq__item"><summary><span>{q}</span></summary><p>{a}</p></details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="ss__cta">
+        <div class="wrap">
+          <h2>Ready for your party?</h2>
+          <a class="ss__btn ss__btn--sun" href="#dates">Book Now</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ss__footer">
+      <div class="wrap">
+        <p><strong>{sample.name} is a made-up business.</strong> This page is a sample website made by {studio} to show what a rental booking site can look like. The names, prices, dates and answers are made up, and the illustrations are original drawings.</p>
+        <p><a href="/">See the plans and ask for your own demo</a></p>
+      </div>
+    </footer>
+  </div>
+</Base>

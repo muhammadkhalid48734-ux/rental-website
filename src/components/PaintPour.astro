@@ -1,0 +1,43 @@
+---
+// Plain white inflatable outline that gets "painted" by a blue and yellow pour.
+// The animation runs once on load. With prefers-reduced-motion the painted state shows at once.
+const shapes = [
+  { t: "rect", x: 110, y: 190, w: 300, h: 210, r: 24 },
+  { t: "rect", x: 30, y: 110, w: 110, h: 290, r: 28 },
+  { t: "rect", x: 380, y: 110, w: 110, h: 290, r: 28 },
+  { t: "circle", cx: 85, cy: 90, r: 34 },
+  { t: "circle", cx: 435, cy: 90, r: 34 },
+  { t: "circle", cx: 260, cy: 164, r: 30 }
+];
+const bluePath =
+  "M-20 -80H540V250L470 250C455 250 452 302 438 302C424 302 424 250 400 250L330 250C300 250 300 264 270 264C240 264 245 326 230 326C215 326 220 264 190 264L130 264C110 264 110 250 90 250L70 250C55 250 52 292 38 292C24 292 28 250 10 250L-20 250Z";
+---
+<svg class="pour" viewBox="0 0 520 440" width="520" height="440" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="castle-clip">
+      {shapes.map((s) => s.t === "rect"
+        ? <rect x={s.x} y={s.y} width={s.w} height={s.h} rx={s.r} />
+        : <circle cx={s.cx} cy={s.cy} r={s.r} />)}
+    </clipPath>
+  </defs>
+  <ellipse cx="260" cy="412" rx="236" ry="12" fill="#0f1a33" opacity=".08" />
+  <!-- plain white inflatable -->
+  <g fill="#fff" stroke="#0f1a33" stroke-width="3" stroke-linejoin="round">
+    {shapes.map((s) => s.t === "rect"
+      ? <rect x={s.x} y={s.y} width={s.w} height={s.h} rx={s.r} />
+      : <circle cx={s.cx} cy={s.cy} r={s.r} />)}
+  </g>
+  <!-- the paint pour, clipped to the inflatable -->
+  <g clip-path="url(#castle-clip)">
+    <path class="pour__blue" d={bluePath} fill="#2447d6" />
+    <path class="pour__sun pour__sun--l" d="M52 -80H118V318C118 346 106 356 85 356C64 356 52 346 52 318Z" fill="#ffc83d" />
+    <path class="pour__sun pour__sun--r" d="M402 -80H468V300C468 328 456 338 435 338C414 338 402 328 402 300Z" fill="#ffc83d" />
+  </g>
+  <!-- seams + details drawn on top -->
+  <g fill="none" stroke="#0f1a33" stroke-width="3" stroke-linejoin="round">
+    {shapes.map((s) => s.t === "rect"
+      ? <rect x={s.x} y={s.y} width={s.w} height={s.h} rx={s.r} />
+      : <circle cx={s.cx} cy={s.cy} r={s.r} />)}
+  </g>
+  <path d="M205 400V352a55 55 0 0 1 110 0v48z" fill="#fff" stroke="#0f1a33" stroke-width="3" stroke-linejoin="round" />
+</svg>

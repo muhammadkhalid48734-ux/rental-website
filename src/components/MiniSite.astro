@@ -1,0 +1,35 @@
+---
+// A static, decorative miniature of a sample site, drawn in HTML so it costs no image bytes.
+import Inflatable from "./Inflatable.astro";
+import { samples } from "../samples/data.js";
+const { sample = samples[0], showCal = true } = Astro.props;
+const t = sample.theme;
+const booked = new Set([3, 4, 10, 11, 12, 17, 18, 24, 25]);
+const cells = Array.from({ length: 28 }, (_, i) => i + 1);
+const style = `--p:${t.primary};--pd:${t.dark};--a:${t.accent};--sf:${t.soft};--i-a:${t.primary};--i-b:${t.accent};--i-c:#fff;`;
+---
+<div class="mini" style={style} aria-hidden="true">
+  <div class="mini__bar"><b>{sample.name}</b><i></i></div>
+  <div class="mini__hero">
+    <div>
+      <p class="mini__title">{sample.heroLine}</p>
+      <span class="mini__btn">Check dates</span>
+    </div>
+    <Inflatable kind={sample.hero} />
+  </div>
+  {showCal && (
+    <div class="mini__cal">
+      <p class="mini__label">Pick a date</p>
+      <div class="mini__grid">
+        {cells.map((d) => <span class:list={["mini__d", booked.has(d) && "is-booked", d === 20 && "is-pick"]}>{d}</span>)}
+      </div>
+    </div>
+  )}
+  <div class="mini__items">
+    {sample.items.slice(0, showCal ? 3 : 2).map((it) => (
+      <div class="mini__item"><span>{it.name}</span><b class="mono">${it.price}</b></div>
+    ))}
+  </div>
+  {showCal && <span class="mini__book">Book Now</span>}
+  <span class="mini__sash">Sample site</span>
+</div>

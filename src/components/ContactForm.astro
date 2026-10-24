@@ -1,0 +1,88 @@
+---
+import { config } from "../config.js";
+import { isTodo } from "../lib/pricing.js";
+import ContactLink from "./ContactLink.astro";
+const placeholder = isTodo(config.formEndpoint) || !/^https?:\/\//.test(config.formEndpoint);
+const devBanner = import.meta.env.DEV && placeholder;
+---
+<section class="section demo" id="demo" aria-labelledby="demo-title" data-demo-section>
+  <div class="wrap demo__grid on-dark">
+    <div class="demo__copy">
+      <h2 id="demo-title">Get my free demo</h2>
+      <p class="demo__lead">Send your page. We build a private demo and tell you what it costs to go live. You pay only if you want it live.</p>
+      <ol class="demo__next">
+        <li>You send your page.</li>
+        <li>We build your private demo. Ready {config.demoTurnaround}.</li>
+        <li>You decide. No contract.</li>
+      </ol>
+    </div>
+
+    <div class="demo__card">
+      {devBanner && (
+        <div class="dev-banner" role="note">
+          <strong>Dev only:</strong> <code>formEndpoint</code> in <code>src/config.js</code> is still a placeholder, so this form cannot send yet. Submitting will show the failure state. This banner never appears in the production build.
+        </div>
+      )}
+
+      <form id="demo-form" novalidate data-endpoint={config.formEndpoint} data-placeholder={placeholder ? "1" : "0"} data-turnaround={config.demoTurnaround}>
+        <div class="form__errors" data-errors role="alert" tabindex="-1" hidden></div>
+
+        <div class="field">
+          <label for="f-biz">Business name</label>
+          <input id="f-biz" name="businessName" type="text" autocomplete="organization" required aria-describedby="f-biz-e" />
+          <p class="field__err" id="f-biz-e" data-err-for="businessName"></p>
+        </div>
+        <div class="field">
+          <label for="f-city">City</label>
+          <input id="f-city" name="city" type="text" autocomplete="address-level2" required aria-describedby="f-city-e" />
+          <p class="field__err" id="f-city-e" data-err-for="city"></p>
+        </div>
+        <div class="field">
+          <label for="f-social">Instagram or Facebook page</label>
+          <input id="f-social" name="social" type="text" inputmode="url" autocapitalize="none" autocomplete="off" required placeholder="Link or @name" aria-describedby="f-social-e" />
+          <p class="field__err" id="f-social-e" data-err-for="social"></p>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" required aria-describedby="f-email-e" />
+          <p class="field__err" id="f-email-e" data-err-for="email"></p>
+        </div>
+        <div class="field">
+          <label for="f-msg">Message <span class="field__opt">(optional)</span></label>
+          <textarea id="f-msg" name="message" rows="3"></textarea>
+        </div>
+
+        <div class="hp" aria-hidden="true">
+          <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <div class="field field--check">
+          <input id="f-ok" name="consent" type="checkbox" required aria-describedby="f-ok-e" />
+          <label for="f-ok">OK to contact me about this demo</label>
+          <p class="field__err" id="f-ok-e" data-err-for="consent"></p>
+        </div>
+
+        <button class="btn btn--sun btn--block" type="submit" data-submit>Send my page</button>
+        <p class="form__fine">We only use this to contact you about your demo. See the <a href="/privacy/">privacy page</a>.</p>
+      </form>
+
+      <div class="form__result form__result--ok" data-success tabindex="-1" hidden>
+        <h3>Thanks. Got it.</h3>
+        <p>We'll reply with your demo or a question {config.demoTurnaround}.</p>
+      </div>
+
+      <div class="form__result form__result--bad" data-failure tabindex="-1" hidden>
+        <h3>That did not go through</h3>
+        <p data-failure-msg>Your answers are still in the form. Try again, or send the same details to us directly.</p>
+        <p class="form__fallback">
+          <ContactLink kind="email" class="btn btn--ghost" label="Email us" />
+          <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  import { initForm } from "../scripts/form.js";
+  initForm();
+</script>

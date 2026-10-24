@@ -1,0 +1,24 @@
+---
+import { config } from "../config.js";
+import PaintPour from "./PaintPour.astro";
+import PhoneFrame from "./PhoneFrame.astro";
+import MiniSite from "./MiniSite.astro";
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <h1 id="hero-title">A booking website, so you stop answering <span class="nowrap">“Is Saturday open?”</span></h1>
+      <p class="hero__lead">Customers see your open dates and prices, pick a bounce house and send a booking request. Your phone stops being the front desk.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>
+        <a class="link-strong" href="#samples">See sample sites</a>
+      </div>
+      <p class="hero__fine"><strong>Free private demo. You only pay if you want it live. No contract.</strong></p>
+      <p class="hero__fine hero__fine--2">Your demo is ready {config.demoTurnaround}, after you send your page.</p>
+    </div>
+    <div class="hero__visual">
+      <PaintPour />
+      <PhoneFrame class="hero__phone"><MiniSite /></PhoneFrame>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+---
+import BookingSample from "./BookingSample.astro";
+const items = [
+  { name: "Classic Castle", price: 149 },
+  { name: "Slide Combo", price: 199 },
+  { name: "Obstacle Run", price: 229 }
+];
+const biz = "Brightwick Bounce";
+---
+<section class="section" id="see" aria-labelledby="see-title">
+  <div class="wrap" data-booking-scope>
+    <div class="section__head">
+      <h2 id="see-title">See what your customers see</h2>
+      <p>Tap a date, pick an item, send a request. Then see the three messages your customer gets, without you typing any of them.</p>
+    </div>
+    <div class="live">
+      <BookingSample id="live" items={items} seed={1} businessName={biz} />
+      <div class="msgs">
+        <div class="msgs__head">
+          <h3>What your customer receives</h3>
+          <span class="tag tag--sample">Sample</span>
+        </div>
+        <article class="msg" aria-labelledby="m1">
+          <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">Email · right after you confirm the booking</p></div></header>
+          <h4 id="m1" class="msg__subject">Your party is booked: <span data-msg-date>your date</span></h4>
+          <p>Hi Sam, thanks for booking with {biz}. Your <span data-msg-item>your item</span> is reserved for <span data-msg-date>your date</span>. Need to change anything? Just reply to this email.</p>
+        </article>
+        <article class="msg" aria-labelledby="m2">
+          <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">Email · the day before the party</p></div></header>
+          <h4 id="m2" class="msg__subject">Tomorrow: your <span data-msg-item>your item</span> is coming</h4>
+          <p>Hi Sam, a quick reminder that your party is tomorrow, <span data-msg-date>your date</span>. Please clear the space and keep a power outlet within reach. See you soon.</p>
+        </article>
+        <article class="msg" aria-labelledby="m3">
+          <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">Email · after the party</p></div></header>
+          <h4 id="m3" class="msg__subject">How did the party go?</h4>
+          <p>Hi Sam, thanks for choosing {biz}. If it went well, a short Google review helps other families find us.</p>
+          <p class="msg__btn" aria-hidden="true">Leave a review</p>
+        </article>
+        <p class="msgs__note">Sample messages from a made-up business. Yours use your name, your items and your wording.</p>
+      </div>
+    </div>
+  </div>
+</section>

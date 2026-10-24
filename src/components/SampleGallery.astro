@@ -1,0 +1,27 @@
+---
+import { samples } from "../samples/data.js";
+import PhoneFrame from "./PhoneFrame.astro";
+import MiniSite from "./MiniSite.astro";
+import MiniDesk from "./MiniDesk.astro";
+---
+<section class="section section--soft" id="samples" aria-labelledby="samples-title">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="samples-title">Sample sites</h2>
+      <p>Three made-up bounce house businesses, so you can tap around a finished site. They are not real businesses, and every page says so.</p>
+    </div>
+    <ul class="gallery">
+      {samples.map((s) => (
+        <li class="sample">
+          <a class="sample__visual" href={`/samples/${s.slug}/`} tabindex="-1" aria-hidden="true">
+            <div class="laptop"><div class="laptop__screen"><MiniDesk sample={s} /></div><div class="laptop__base"></div></div>
+            <PhoneFrame class="sample__phone" label=""><MiniSite sample={s} showCal={false} /></PhoneFrame>
+          </a>
+          <h3>{s.name}</h3>
+          <p>{s.blurb}</p>
+          <a class="btn btn--ghost" href={`/samples/${s.slug}/`}>Open this sample site<span class="sr-only">: {s.name}</span></a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

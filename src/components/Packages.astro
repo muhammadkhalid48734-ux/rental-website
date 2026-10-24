@@ -1,0 +1,54 @@
+---
+import { config } from "../config.js";
+import { priceLine, firstYearLine, featureText, featureIsSms } from "../lib/pricing.js";
+import Check from "./Check.astro";
+import CompareTable from "./CompareTable.astro";
+import Addons from "./Addons.astro";
+---
+<section class="section" id="packages" aria-labelledby="packages-title">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 id="packages-title">Pick what you need</h2>
+      <p>Setup and monthly price are always shown together, with what the first year costs.</p>
+    </div>
+
+    <ul class="plans">
+      {config.packages.map((p) => {
+        const price = priceLine(p);
+        const fy = firstYearLine(p);
+        return (
+          <li class:list={["plan", p.recommended && "plan--rec"]}>
+            {p.recommended && <span class="tag tag--rec plan__flag">Recommended</span>}
+            <h3>{p.name}</h3>
+            <p class="plan__tagline">{p.tagline}</p>
+            <p class="plan__price">
+              <span class="plan__setup mono">{price.setup}</span>
+              <span class="plan__monthly">{p.monthly === 0 ? price.monthly : <span class="mono">{price.monthly}</span>}</span>
+            </p>
+            <p class="plan__setuplabel">{p.monthly === 0 ? "One-time setup" : "Setup, then monthly"}</p>
+            <p class="plan__first">
+              <span class="plan__firstlabel">{fy.label}</span>
+              <span class="mono plan__firstmath">{fy.math}</span>
+              {fy.note && <span class="plan__firstnote">{fy.note}</span>}
+            </p>
+            <ul class="plan__features">
+              {p.features.map((f) => (
+                <li><Check />
+                  <span>{featureText(f)}{featureIsSms(f) && !config.smsAvailable && <> <span class="tag tag--soon">Coming soon</span></>}</span>
+                </li>
+              ))}
+            </ul>
+            {p.features.some(featureIsSms) && !config.smsAvailable && (
+              <p class="plan__note">Text reminders are coming soon. Until then, reminders go by email.</p>
+            )}
+            <a class:list={["btn", "btn--block", p.recommended ? "btn--primary" : "btn--ghost"]} href="#demo" data-scroll-form>Get my free demo</a>
+          </li>
+        );
+      })}
+    </ul>
+    <p class="plans__fine">The demo is free and private. You pay only if you want it live.</p>
+
+    <CompareTable />
+    <Addons />
+  </div>
+</section>
