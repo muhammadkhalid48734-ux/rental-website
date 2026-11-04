@@ -14,7 +14,7 @@ const offset = studioOffset(config.timezone);
   <div class="wrap about">
     <div class="about__photo">
       {config.ownerPhoto ? (
-        <img src={config.ownerPhoto} alt={`Photo of ${config.ownerName}`} width="320" height="320" loading="lazy" decoding="async" />
+        <img src={config.ownerPhoto} alt={`Photo of ${config.ownerName}`} width="150" height="150" loading="lazy" decoding="async" />
       ) : (
         <div class="photo-ph" role="img" aria-label="Owner photo goes here">
           <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true" focusable="false"><circle cx="60" cy="46" r="22" fill="none" stroke="#55617a" stroke-width="3" /><path d="M20 108c4-24 20-34 40-34s36 10 40 34" fill="none" stroke="#55617a" stroke-width="3" stroke-linecap="round" /></svg>

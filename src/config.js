@@ -19,7 +19,7 @@ export const config = {
   studioName: "Hopbook",
   ownerName: "Haseeb",
   ownerRole: "Founder",
-  ownerPhoto: "", // optional. Path under /public, e.g. "/owner.webp". Empty = placeholder box.
+  ownerPhoto: "/haseeb.webp", // optional. Path under /public. Empty = placeholder box. Source file is 150x150, so it is shown at 150px; use a 400x400 or larger photo for a sharper result.
   // One honest sentence about you, in your own words. Shown in "Who you're dealing with".
   ownerBio:
     "I'm Haseeb, and I run Hopbook, a small studio that builds simple booking websites for bounce house and party rental businesses. You can reach me by email or by message on Instagram or Facebook.",
