@@ -53,7 +53,7 @@ export const config = {
   minimumMonths: 3,
   // Working days between sign-up and everything being set up. Shown wherever a feature is
   // marked "after-signup". You have not given a number yet, so it stays a placeholder.
-  setupDays: "TODO: setupDays",
+  setupDays: "5", // working days from sign-up until everything in the plan is set up
   // How long a pending request can hold a date if the owner turns the hold on (FAQ + sample).
   pendingHoldHours: 24,
   paymentMethod: "TODO: PAYMENT_METHOD", // how you take payment, e.g. invoice paid by card or bank transfer
@@ -129,7 +129,8 @@ export const config = {
     outreachDisclosure:
       "We found your public page and sent one message. Reply STOP or tell us to stop and we won't write again.",
     // How the owner confirms a booking, or tells us a deposit has arrived (this is what blocks a date).
-    markBooked: "TODO: markBooked", // e.g. "Reply to the booking email with Confirm and we block the date."
+    markBooked:
+      "When an inquiry arrives, reply to the alert email with the word Confirm and the date is blocked. Do the same when a deposit arrives.",
     invoiceAgreement: "TODO: invoiceAgreement", // what you can send and when: invoice, written agreement
     // Set true ONLY if you really promise one rental business per town.
     exclusivity: false,
