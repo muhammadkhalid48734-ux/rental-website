@@ -1,12 +1,11 @@
 ---
 import { config } from "../config.js";
 import { termsOwn, termsFree, noDemo } from "../lib/terms.js";
-import Val from "./Val.astro";
 const points = [
   { h: "It’s yours", p: termsOwn() },
   { h: "Free build, simple terms", p: termsFree() },
   { h: "Don’t like the demo? You pay nothing", p: `${noDemo()} The demo is free and private.` },
-  { h: "How payment works", p: "You only pay after you’ve seen the demo and said yes.", extra: config.paymentMethod }
+  { h: "How payment works", p: `You only pay after you’ve seen the demo and said yes. Payment is by ${config.paymentMethod}.` }
 ];
 ---
 <section class="section" id="protected" aria-labelledby="protected-title">
@@ -21,7 +20,7 @@ const points = [
           <svg class="protect__ic" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false"><circle cx="14" cy="14" r="14" fill="#ffc83d" /><path d="M8 14.5l4 4 8-9" fill="none" stroke="#0f1a33" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
           <div>
             <h3>{x.h}</h3>
-            <p>{x.p}{x.extra && <> <Val v={x.extra} /></>}</p>
+            <p>{x.p}</p>
           </div>
         </li>
       ))}

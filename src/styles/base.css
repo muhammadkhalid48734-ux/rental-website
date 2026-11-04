@@ -128,6 +128,7 @@ strong { font-weight: 700; }
 
 /* Dev banner (form endpoint) */
 .dev-banner { background: #fff0b3; border: 2px dashed #b37b00; color: #3d2a00; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 0.95rem; margin-bottom: 18px; }
+.dev-banner--top { margin: 0; border-radius: 0; border-width: 0 0 2px; position: relative; z-index: 70; }
 .dev-banner code { font-family: var(--font-mono); }
 
 @media (prefers-reduced-motion: reduce) {

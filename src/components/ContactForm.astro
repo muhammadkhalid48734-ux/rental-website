@@ -2,6 +2,7 @@
 import { config } from "../config.js";
 import { isTodo } from "../lib/pricing.js";
 import ContactLink from "./ContactLink.astro";
+import { waOk } from "../lib/contact.js";
 import { termsFree, noDemo } from "../lib/terms.js";
 const placeholder = isTodo(config.formEndpoint) || !/^https?:\/\//.test(config.formEndpoint);
 const devBanner = import.meta.env.DEV && placeholder;
@@ -77,8 +78,9 @@ const devBanner = import.meta.env.DEV && placeholder;
         <p data-failure-msg>Your answers are still in the form. Try again, or send the same details to us directly.</p>
         <p class="form__fallback">
           <ContactLink kind="email" class="btn btn--ghost" label="Email us" />
-          <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />
+          {waOk() && <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />}
         </p>
+        <p>You can also reply to our message on Instagram or Facebook.</p>
       </div>
     </div>
   </div>

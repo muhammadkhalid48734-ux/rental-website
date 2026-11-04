@@ -1,18 +1,21 @@
 // =============================================================================
 // ALL business details live in this one file.
 //
-// Anything that starts with "TODO" is a placeholder. The site builds and runs
-// with placeholders, shows them as plain text, and leaves them out of
-// JSON-LD, the OG image and mailto/whatsapp links until you fill them in.
+// Anything that starts with "TODO" is a placeholder. The site shows placeholders as plain text
+// and leaves them out of JSON-LD, the OG image and mailto/whatsapp links until you fill them in.
+//
+// Two values MUST be real before a production build: `locationAnswer` and `governingLaw`.
+// `npm run build` fails while either still contains "TODO" (see astro.config.mjs). In `npm run dev`
+// you get a warning instead. To build a draft anyway (checks, previews): ALLOW_PLACEHOLDERS=1 npm run build
 // Prices, plan features, statuses, the minimum term and the monthly prices on the page are all
 // rendered from this file, so the page cannot contradict itself.
 // =============================================================================
 
 export const config = {
   // ---- Who you are --------------------------------------------------------
-  studioName: "TODO: studio name",
-  ownerName: "TODO: owner name",
-  ownerRole: "TODO: owner role", // for example: Founder
+  studioName: "Hopbook",
+  ownerName: "Haseeb",
+  ownerRole: "Founder",
   ownerPhoto: "", // optional. Path under /public, e.g. "/owner.webp". Empty = placeholder box.
   // One honest sentence about you, in your own words. Shown in "Who you're dealing with".
   ownerBio: "TODO: ownerBio",
@@ -26,23 +29,25 @@ export const config = {
   siteUrl: "TODO: siteUrl", // e.g. https://your-domain.com
 
   // ---- How people reach you ----------------------------------------------
-  email: "TODO: email",
-  whatsapp: "TODO: whatsapp number", // country code + digits only, e.g. 15551234567
-  calendarUrl: "", // optional booking link (Cal.com, Calendly...). Empty = not shown.
+  // The only contact methods shown on the page are email and Instagram/Facebook messages.
+  email: "muhammadkhalid48734@gmail.com",
+  // WhatsApp is hidden everywhere (links, buttons, FAQ, form fallback, JSON-LD) while this is empty.
+  // To turn it on, set country code + digits only, e.g. "15551234567".
+  whatsapp: "",
   // Contact form endpoint (Formspree, Getform, Basin...). Must accept a JSON POST.
   formEndpoint: "TODO: formEndpoint", // e.g. https://formspree.io/f/xxxxxxxx
-  formProvider: "TODO: form service name", // shown on the privacy page
+  formProvider: "Formspree", // shown on the privacy page
 
   // ---- Hours --------------------------------------------------------------
-  // IANA timezone you work in. Pakistan is Asia/Karachi.
+  // IANA timezone the hours below are in.
   timezone: "Asia/Karachi",
   supportHours: {
-    daysLabel: "TODO: support days", // for example: Monday to Saturday
-    start: "TODO: start", // 24-hour HH:MM in `timezone`, e.g. "09:00". Needs a real value to convert to US times.
-    end: "TODO: end" // e.g. "18:00"
+    daysLabel: "Monday to Saturday",
+    start: "20:00", // 24-hour HH:MM in `timezone`. Ends after midnight, that is fine.
+    end: "02:00"
   },
-  // How quickly you reply to a normal message during support hours.
-  replyTime: "TODO: replyTime", // for example: within 2 hours
+  // How quickly you reply to a normal message during support hours. Shown exactly as written.
+  replyTime: "within a few hours during support hours",
   // Used word for word in the hero, "How it works", the FAQ and the form success message.
   demoTurnaround:
     "usually within the hour during our support hours, otherwise by the next morning (US time)",
@@ -56,7 +61,7 @@ export const config = {
   setupDays: "5", // working days from sign-up until everything in the plan is set up
   // How long a pending request can hold a date if the owner turns the hold on (FAQ + sample).
   pendingHoldHours: 24,
-  paymentMethod: "TODO: PAYMENT_METHOD", // how you take payment, e.g. invoice paid by card or bank transfer
+  paymentMethod: "PayPal", // shown as "Payment is by PayPal."
   // Set true once text reminders really work. While false, every place that
   // mentions text reminders shows a "Coming soon" tag and the FAQ says so.
   smsAvailable: false,
@@ -131,7 +136,8 @@ export const config = {
     // How the owner confirms a booking, or tells us a deposit has arrived (this is what blocks a date).
     markBooked:
       "When an inquiry arrives, reply to the alert email with the word Confirm and the date is blocked. Do the same when a deposit arrives.",
-    invoiceAgreement: "TODO: invoiceAgreement", // what you can send and when: invoice, written agreement
+    invoiceAgreement:
+      "You receive an invoice by email and a one-page written agreement before any payment. You pay only after you've seen the demo.",
     // Set true ONLY if you really promise one rental business per town.
     exclusivity: false,
     exclusivityText: ""
@@ -156,8 +162,20 @@ export const config = {
   // index them, so nobody finds a fictional business in search results. Set true to allow indexing.
   indexSampleSites: false,
 
+  // ---- Where you are (must be accurate before launch) ----------------------
+  // Used in the FAQ answers "Are you in the US, and how do we talk?" and "Where are you based?".
+  // Remove the "TODO: " at the start once you have confirmed every word is true. Never claim or imply
+  // you are physically local to a visitor. No location appears in the hero or the About section.
+  locationAnswer:
+    "TODO: I'm from the US and I'm currently working remotely, so everything is done online by email and by message on Instagram or Facebook.",
+
   // ---- Legal pages --------------------------------------------------------
-  legalLastUpdated: "TODO: date"
+  legalLastUpdated: "November 4, 2026",
+  // Shown on the Privacy and Terms pages wherever they ask for contact details. Never invented.
+  postalAddress: "TODO: postalAddress",
+  governingLaw:
+    "TODO: the laws of the State of [STATE], USA, only if my legal address or business registration is there",
+  disputeResolution: "Before any formal dispute, both sides try to resolve it by email within 30 days."
 };
 
 export default config;

@@ -19,6 +19,7 @@ const canonical = site + (path === "/" ? "/" : path.replace(/\/?$/, "/"));
 const ogImage = `${site}/og.png`;
 const fullTitle = title;
 const a = config.analytics;
+const mustBeReal = ["locationAnswer", "governingLaw"].filter((k) => String(config[k]).includes("TODO"));
 ---
 <!doctype html>
 <html lang="en-US">
@@ -54,6 +55,11 @@ const a = config.analytics;
     {a.enabled && a.domain && <script defer data-domain={a.domain} src={a.scriptSrc}></script>}
   </head>
   <body class={bodyClass}>
+    {import.meta.env.DEV && mustBeReal.length > 0 && (
+      <div class="dev-banner dev-banner--top" role="note">
+        <strong>Dev only:</strong> <code>{mustBeReal.join(" and ")}</code> in <code>src/config.js</code> still contain TODO. A production build will fail until they are real. This banner never appears in the production build.
+      </div>
+    )}
     <a class="skip-link" href="#main">Skip to content</a>
     <slot />
   </body>

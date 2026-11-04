@@ -13,7 +13,7 @@ npm run build     # static site in ./dist
 npm run preview   # serve ./dist locally
 ```
 
-The site builds and runs with every placeholder still in place.
+The site runs in dev with placeholders in place. A production build, however, **fails while `locationAnswer` or `governingLaw` still contains "TODO"**, so the two statements that must be accurate cannot ship unconfirmed. To build a draft anyway (checks, previews): `ALLOW_PLACEHOLDERS=1 npm run build`. In `npm run dev` you get a warning banner instead.
 
 ## All business details live in `src/config.js`
 
@@ -23,11 +23,12 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | --- | --- |
 | Who you are | `studioName`, `ownerName`, `ownerRole`, `ownerPhoto`, `ownerBio` |
 | Site | `siteUrl` (full `https://` URL, used for canonical, OG tags, sitemap) |
-| Contact | `email`, `whatsapp` (digits with country code), `calendarUrl` (optional), `formEndpoint`, `formProvider` |
+| Contact | `email`, `whatsapp` (optional, hidden everywhere while empty), `formEndpoint`, `formProvider`. The only contact methods shown are email and Instagram/Facebook messages. |
 | Hours | `timezone`, `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime`, `demoTurnaround` |
 | Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `setupDays`, `pendingHoldHours`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
-| Other | `testimonials`, `analytics`, `indexSampleSites`, `legalLastUpdated` |
+| Where you are and legal | `locationAnswer`, `governingLaw`, `disputeResolution`, `postalAddress`, `legalLastUpdated` |
+| Other | `testimonials`, `analytics`, `indexSampleSites` |
 
 Notes:
 
@@ -48,7 +49,7 @@ Sample site content (fictional names, items, prices, FAQs) is in `src/samples/da
 Set `formEndpoint` to any service that accepts a JSON `POST` and returns a 2xx (Formspree, Getform, Basin...). The form posts `businessName`, `city`, `social`, `email`, `message`, `consent` and `_subject`.
 
 - Validates on the client, never clears typed text on error.
-- Loading, success and failure states. Failure shows email and WhatsApp fallbacks, prefilled with what the person typed.
+- Loading, success and failure states. Failure shows an email fallback (and WhatsApp once `whatsapp` is set), prefilled with what the person typed.
 - Hidden honeypot field (`_gotcha`). If a bot fills it, nothing is sent.
 - If `formEndpoint` is still a placeholder: `npm run dev` shows a clear banner, and submitting shows the failure state with the fallbacks. It never fails silently. The banner is never in the production build.
 

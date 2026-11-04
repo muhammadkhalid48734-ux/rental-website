@@ -86,10 +86,6 @@ export function initForm() {
       const base = a.getAttribute("href").split("?")[0];
       a.setAttribute("href", `${base}?subject=${encodeURIComponent("Demo request: " + data.businessName)}&body=${encodeURIComponent(body)}`);
     });
-    failure.querySelectorAll("a[href^='https://wa.me/']").forEach((a) => {
-      const base = a.getAttribute("href").split("?")[0];
-      a.setAttribute("href", `${base}?text=${encodeURIComponent(body)}`);
-    });
   }
 
   function showFailure(message) {

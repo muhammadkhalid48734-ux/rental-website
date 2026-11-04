@@ -69,8 +69,9 @@ export function convertHours(studioTz, start, end, zones = US_ZONES, now = new D
   const from = zonedInstant(studioTz, y, m, d, s.h, s.m);
   let to = zonedInstant(studioTz, y, m, d, e.h, e.m);
   if (to <= from) to = new Date(to.getTime() + 86400000);
+  // Day notes are measured against the day the hours START in the studio's zone, so a late-night
+  // shift that ends after midnight there does not read as "day before" in the US.
   const sFrom = ymdIn(studioTz, from);
-  const sTo = ymdIn(studioTz, to);
   const dayDiff = (a, b) => Math.round((Date.UTC(a.y, a.m, a.d) - Date.UTC(b.y, b.m, b.d)) / 86400000);
   const note = (n) => (n === 0 ? "" : n < 0 ? " (day before)" : " (next day)");
   return zones.map((z) => ({
@@ -78,7 +79,7 @@ export function convertHours(studioTz, start, end, zones = US_ZONES, now = new D
     tz: z.id,
     abbr: abbr(z.id, from),
     // each time carries its own day note, measured against the studio's day
-    range: `${fmtTime(z.id, from)}${note(dayDiff(ymdIn(z.id, from), sFrom))} to ${fmtTime(z.id, to)}${note(dayDiff(ymdIn(z.id, to), sTo))}`
+    range: `${fmtTime(z.id, from)}${note(dayDiff(ymdIn(z.id, from), sFrom))} to ${fmtTime(z.id, to)}${note(dayDiff(ymdIn(z.id, to), sFrom))}`
   }));
 }
 
@@ -94,4 +95,13 @@ export function tzLongName(tz, date = new Date()) {
   const part = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "long" })
     .formatToParts(date).find((x) => x.type === "timeZoneName");
   return part ? part.value : tz;
+}
+
+/** "UTC+5" or "UTC+5:30" for a time zone, with no country name. */
+export function utcLabel(tz, date = new Date()) {
+  const m = offsetMinutes(tz, date);
+  const sign = m < 0 ? "-" : "+";
+  const abs = Math.abs(m);
+  const h = Math.floor(abs / 60), mm = abs % 60;
+  return `UTC${sign}${h}${mm ? ":" + String(mm).padStart(2, "0") : ""}`;
 }

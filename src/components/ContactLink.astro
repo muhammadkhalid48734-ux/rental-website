@@ -1,5 +1,5 @@
 ---
-// Email or WhatsApp as a real link when the value is real, plain text when it's still a TODO.
+// Email link, or a WhatsApp link that exists only once config.whatsapp is set. Nothing renders otherwise.
 import { config } from "../config.js";
 import { emailHref, waHref } from "../lib/contact.js";
 import Val from "./Val.astro";
@@ -9,6 +9,6 @@ const text = label ?? (kind === "email" ? config.email : "WhatsApp");
 ---
 {href ? (
   <a class={cls} href={href} {...(kind === "whatsapp" ? { rel: "noopener", target: "_blank" } : {})}>{text}</a>
-) : (
-  <span class={cls}><Val v={kind === "email" ? config.email : "TODO: WhatsApp"} /></span>
-)}
+) : kind === "email" ? (
+  <span class={cls}><Val v={config.email} /></span>
+) : null}

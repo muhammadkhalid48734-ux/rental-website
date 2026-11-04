@@ -4,6 +4,7 @@ import { convertHours, parseHHMM } from "../lib/hours.js";
 import { hoursSentence } from "../lib/faq.js";
 import Val from "./Val.astro";
 import ContactLink from "./ContactLink.astro";
+import { waOk } from "../lib/contact.js";
 
 const { start, end } = config.supportHours;
 const zones = convertHours(config.timezone, start, end);
@@ -22,16 +23,16 @@ const zones = convertHours(config.timezone, start, end);
     </div>
     <div class="about__body">
       <h2 id="about-title">Who you are dealing with</h2>
-      <p class="about__lead"><strong>A small remote studio based in Pakistan.</strong> We work online.</p>
+      <p class="about__lead"><strong>A small remote studio.</strong> We work online.</p>
       <p class="about__name"><strong><Val v={config.ownerName} /></strong>, <Val v={config.ownerRole} /></p>
       <p>We build booking websites for bounce house and party rental businesses in the US.</p>
       <p><Val v={config.ownerBio} /></p>
-      <p>Everything happens online, by email and WhatsApp, so you can reach us from the truck between deliveries.</p>
+      <p>Everything happens online, by email and by message on Instagram or Facebook, so you can reach us from the truck between deliveries.</p>
 
       <div class="hours" data-hours data-tz={config.timezone} data-start={start} data-end={end}>
         <h3>Support hours</h3>
         <p class="hours__studio" data-hours-studio>
-          {parseHHMM(start) && parseHHMM(end) ? hoursSentence() : <Val v="TODO: supportHours" />}
+          {parseHHMM(start) && parseHHMM(end) ? hoursSentence({ neutral: true }) : <Val v="TODO: supportHours" />}
         </p>
         {zones ? (
           <>
@@ -51,7 +52,7 @@ const zones = convertHours(config.timezone, start, end);
 
       <p class="about__links">
         <ContactLink kind="email" class="btn btn--ghost" label="Email us" />
-        <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />
+        {waOk() && <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />}
       </p>
     </div>
   </div>
