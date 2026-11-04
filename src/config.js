@@ -4,7 +4,7 @@
 // Anything that starts with "TODO" is a placeholder. The site builds and runs
 // with placeholders, shows them as plain text, and leaves them out of
 // JSON-LD, the OG image and mailto/whatsapp links until you fill them in.
-// Prices, plan features, statuses, the minimum term and the founding offer on the page are all
+// Prices, plan features, statuses, the minimum term and the monthly prices on the page are all
 // rendered from this file, so the page cannot contradict itself.
 // =============================================================================
 
@@ -61,18 +61,12 @@ export const config = {
   // mentions text reminders shows a "Coming soon" tag and the FAQ says so.
   smsAvailable: false,
 
-  // Founding offer. Default OFF. When true, each plan shows its `foundingMonthly` price for the
-  // first `foundingMonths` months, then the regular `monthly` price.
-  foundingOffer: false,
-  foundingMonths: 12,
-
   packages: [
     {
       id: "found",
       name: "Get Found",
       tagline: "A modern site on your domain that answers every inquiry and asks for reviews.",
       monthly: 59,
-      foundingMonthly: 39,
       recommended: false,
       editMinutes: 15 // included per month
     },
@@ -81,7 +75,6 @@ export const config = {
       name: "Get Booked",
       tagline: "Shows open dates, protects against double bookings and follows up for you.",
       monthly: 99,
-      foundingMonthly: 69,
       recommended: true,
       editMinutes: 30
     },
@@ -90,7 +83,6 @@ export const config = {
       name: "Get Paid",
       tagline: "Takes deposits through your own account, signs waivers and rebooks customers.",
       monthly: 179,
-      foundingMonthly: 129,
       recommended: false,
       editMinutes: 120
     }

@@ -189,7 +189,6 @@
 .plan__features li { display: flex; gap: 10px; padding: 5px 0; font-size: 1rem; line-height: 1.4; }
 .plan__features .ic { margin-top: 1px; }
 .plan__features .plan__everything { display: block; padding-top: 0; font-weight: 700; }
-.plan__founding { margin-left: 4px; }
 .plan__note { margin: 0 0 16px; color: var(--muted); font-size: 0.9375rem; }
 .plans__terms { max-width: 46rem; margin: 0 0 26px; padding: 16px 18px; background: var(--soft); border-radius: var(--radius); }
 .plans__terms p { margin: 0 0 10px; }

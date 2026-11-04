@@ -13,30 +13,14 @@ export const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 export const minutesText = (m) => (m % 60 === 0 ? `${m / 60} ${m === 60 ? "hour" : "hours"}` : `${m} minutes`);
 
-export const founding = () => config.foundingOffer === true;
-export const foundingPeriod = () => (config.foundingMonths === 12 ? "the first year" : `the first ${config.foundingMonths} months`);
 
 export const cheapest = () => config.packages.reduce((a, b) => (b.monthly < a.monthly ? b : a));
-export const cheapestFounding = () => config.packages.reduce((a, b) => (b.foundingMonthly < a.foundingMonthly ? b : a));
 
-/** Hero sub line. With the founding offer on, the condition ("for the first year") sits right next to the price. */
-export function fromLine() {
-  return founding()
-    ? `Free website build. Monthly plans from ${money(cheapestFounding().foundingMonthly)} for ${foundingPeriod()}, then from ${money(cheapest().monthly)}.`
-    : `Free website build. Monthly plans from ${money(cheapest().monthly)}.`;
-}
+/** Hero sub line. */
+export const fromLine = () => `Free website build. Monthly plans from ${money(cheapest().monthly)}.`;
 
 /** What a plan card / table cell shows for price. */
-export function planPrice(pkg) {
-  const regular = money(pkg.monthly);
-  if (!founding()) return { main: regular, sub: "", regular, founding: null };
-  return {
-    main: money(pkg.foundingMonthly),
-    sub: `for ${foundingPeriod()}, then ${regular}/month`,
-    regular,
-    founding: money(pkg.foundingMonthly)
-  };
-}
+export const planPrice = (pkg) => ({ main: money(pkg.monthly) });
 
 export const editsText = (pkg) => `${minutesText(pkg.editMinutes)} of edits per month`;
 

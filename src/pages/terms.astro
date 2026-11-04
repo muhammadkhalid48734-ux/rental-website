@@ -4,13 +4,10 @@ import Val from "../components/Val.astro";
 import SetupNote from "../components/SetupNote.astro";
 import ContactLink from "../components/ContactLink.astro";
 import { config } from "../config.js";
-import { money, planPrice, founding, foundingPeriod, minutesText } from "../lib/pricing.js";
+import { planPrice, minutesText } from "../lib/pricing.js";
 import { termsFree, termsOwn, noDemo } from "../lib/terms.js";
 const [found, booked, paid] = config.packages;
-const line = (p) => {
-  const pr = planPrice(p);
-  return founding() ? `${p.name} (${pr.main} a month for ${foundingPeriod()}, then ${pr.regular} a month)` : `${p.name} (${pr.main} a month)`;
-};
+const line = (p) => `${p.name} (${planPrice(p).main} a month)`;
 ---
 <Legal title="Terms" description="Plain-English terms for the free demo, the monthly plans, the minimum term, payment, ownership and leaving.">
   <p>These terms explain how working with <Val v={config.studioName} /> works. If anything here is unclear, ask us before you pay.</p>
@@ -20,7 +17,6 @@ const line = (p) => {
 
   <h2>What you pay</h2>
   <p>{termsFree()} We sell three monthly plans: {line(found)}, {line(booked)} and {line(paid)}. The home page lists exactly what each plan includes.</p>
-  {founding() && <p>Founding prices apply for {foundingPeriod()}. After that, the regular monthly price applies.</p>}
 
   <h2>The {config.minimumMonths}-month minimum</h2>
   <p>You pay the monthly plan for at least {config.minimumMonths} months. After that you can cancel anytime. If you leave before the {config.minimumMonths} months are up, the months left in the minimum are still due.</p>

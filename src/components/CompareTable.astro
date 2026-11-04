@@ -33,7 +33,7 @@ const cell = (row, i) => {
           <th scope="row">Price per month</th>
           {config.packages.map((p) => {
             const pr = planPrice(p);
-            return <td class:list={[p.recommended && "is-rec"]}><span class="mono">{pr.main}</span>{pr.sub && <> <span class="compare__sub">{pr.sub}</span></>}</td>;
+            return <td class:list={[p.recommended && "is-rec"]}><span class="mono">{pr.main}</span></td>;
           })}
         </tr>
         <tr class="compare__prices">

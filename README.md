@@ -25,7 +25,7 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | Site | `siteUrl` (full `https://` URL, used for canonical, OG tags, sitemap) |
 | Contact | `email`, `whatsapp` (digits with country code), `calendarUrl` (optional), `formEndpoint`, `formProvider` |
 | Hours | `timezone`, `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime`, `demoTurnaround` |
-| Offer | `packages` (name, monthly price, founding price, edit minutes), `features`, `minimumMonths`, `setupDays`, `pendingHoldHours`, `foundingOffer`, `foundingMonths`, `paymentMethod`, `smsAvailable`, `addons` |
+| Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `setupDays`, `pendingHoldHours`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
 | Other | `testimonials`, `analytics`, `indexSampleSites`, `legalLastUpdated` |
 
@@ -34,7 +34,6 @@ Notes:
 - **The offer.** The website build is free and customers pay a monthly plan (Get Found, Get Booked, Get Paid) with a minimum term. Change a number in `packages`, `features` or `minimumMonths` and the plan cards, compare table, hero line, FAQ, Terms page, meta description and OG image all update. The terms sentence is built in `src/lib/terms.js` and reused everywhere.
 - **Feature status.** Every entry in `features` has `status: "ready"` (part of the plan from the start) or `"after-signup"`. After-signup features get a clock icon, and the page says "Set up within `setupDays` working days after you sign up". Nothing is ever shown as already running. Everything involving automation, the calendar, deposits and reviews defaults to `"after-signup"`.
 - **Plan inheritance.** A feature's `plan` is the index of the first plan that includes it. Get Booked automatically includes everything in Get Found, and Get Paid everything in Get Booked.
-- **Founding offer.** `foundingOffer: false` by default. Set it to `true` to show each plan's `foundingMonthly` price for `foundingMonths` months, then the regular price. The hero line, plan cards, compare table, Terms page and meta description all say so.
 - **Add-ons.** `addons` is empty because you pay only the monthly plan. If you add entries, an Add-ons list returns, but the "pay only the monthly plan" wording would then no longer be true.
 - **Text reminders.** While `smsAvailable` is `false`, every mention (plan card, compare table, FAQ, Terms) shows "Coming soon". Prices still compute.
 - **Testimonials.** The section renders nothing until `testimonials` has entries with `permission: true`.

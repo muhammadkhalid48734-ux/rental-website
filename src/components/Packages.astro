@@ -1,6 +1,6 @@
 ---
 import { config } from "../config.js";
-import { planPrice, editsText, newFeatures, hasAfterSignup, founding, foundingPeriod } from "../lib/pricing.js";
+import { planPrice, editsText, newFeatures, hasAfterSignup } from "../lib/pricing.js";
 import { termsFull } from "../lib/terms.js";
 import Check from "./Check.astro";
 import Legend from "./Legend.astro";
@@ -19,9 +19,6 @@ import Addons from "./Addons.astro";
       {hasAfterSignup() && (
         <p class="plans__setup">Nothing below is running for you today. Features with a clock icon are set up after you sign up.</p>
       )}
-      {founding() && (
-        <p class="plans__setup">Founding prices apply for {foundingPeriod()}. After that, the regular monthly price applies.</p>
-      )}
       <Legend />
     </div>
 
@@ -36,9 +33,7 @@ import Addons from "./Addons.astro";
             <p class="plan__price">
               <span class="plan__setup mono">{price.main}</span>
               <span class="plan__monthly">/month</span>
-              {price.founding && <span class="tag tag--rec plan__founding">Founding price</span>}
             </p>
-            {price.sub && <p class="plan__setuplabel">{price.sub}</p>}
             <p class="plan__first">
               <span class="plan__firstlabel">Website build</span>
               <span class="plan__firstmath">Free</span>
