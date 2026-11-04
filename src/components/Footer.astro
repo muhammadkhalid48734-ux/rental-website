@@ -8,7 +8,7 @@ import { emailOk, waOk } from "../lib/contact.js";
   <div class="wrap footer__grid">
     <div>
       <p class="footer__name"><Val v={config.studioName} /></p>
-      <p class="footer__small">A small remote studio based in {config.country}, working online.</p>
+      <p class="footer__small">A small remote studio, working online.</p>
       <p><ContactLink kind="email" class="footer__link" /></p>
       {waOk() && <p><ContactLink kind="whatsapp" class="footer__link" label="Message on WhatsApp" /></p>}
     </div>

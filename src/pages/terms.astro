@@ -46,7 +46,6 @@ const line = (p) => `${p.name} (${planPrice(p).main} a month)`;
   <p>We do our best to keep your site working and your reminders going out. Websites and online services can fail, and we cannot promise they never will. The sample websites and the sample calendar and messages on our site are made up, and show what a site could look like. They are not real businesses and not a promise of results.</p>
 
   <h2>Contact and disputes</h2>
-  <p>Talk to us first at <ContactLink kind="email" />, or reply to our message on Instagram or Facebook. Postal address: <Val v={config.postalAddress} />.</p>
-  <p>Governing law: <Val v={config.governingLaw} />.</p>
-  <p><Val v={config.disputeResolution} /></p>
+  <p>Talk to us first at <ContactLink kind="email" />.</p>
+  <p>{config.disputeResolution}</p>
 </Legal>

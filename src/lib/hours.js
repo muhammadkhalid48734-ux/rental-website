@@ -1,6 +1,9 @@
 // Converts the studio's support hours to US time zones.
 // Runs at build time (static fallback) and in the visitor's browser (correct for today's date,
 // including daylight saving). Pure functions, no dependencies.
+//
+// The studio side can be an IANA time zone (build) or a fixed UTC offset in minutes (browser), so
+// the studio's zone name never has to appear in the page.
 
 export const US_ZONES = [
   { id: "America/New_York", label: "Eastern" },
@@ -29,7 +32,10 @@ function offsetMinutes(tz, date) {
   return Math.round((asUtc - (date.getTime() - date.getMilliseconds())) / 60000);
 }
 
-/** The instant when it is HH:MM on `day` (y,m,d) in `tz`. */
+/** The studio zone's UTC offset in minutes (build time), to hand to the browser as a plain number. */
+export const studioOffset = (tz, date = new Date()) => offsetMinutes(tz, date);
+
+/** The instant when it is HH:MM on day (y,m,d) in `tz`. */
 function zonedInstant(tz, y, mo, d, h, mi) {
   const guess = Date.UTC(y, mo, d, h, mi);
   const off1 = offsetMinutes(tz, new Date(guess));
@@ -44,6 +50,16 @@ function ymdIn(tz, date) {
       .formatToParts(date).map((x) => [x.type, x.value])
   );
   return { y: +p.year, m: +p.month - 1, d: +p.day };
+}
+
+// `studio` is an IANA zone name (string) or a fixed offset in minutes (number).
+function studioYmd(studio, date) {
+  if (typeof studio !== "number") return ymdIn(studio, date);
+  const d = new Date(date.getTime() + studio * 60000);
+  return { y: d.getUTCFullYear(), m: d.getUTCMonth(), d: d.getUTCDate() };
+}
+function studioInstant(studio, y, mo, d, h, mi) {
+  return typeof studio === "number" ? new Date(Date.UTC(y, mo, d, h, mi) - studio * 60000) : zonedInstant(studio, y, mo, d, h, mi);
 }
 
 function fmtTime(tz, date) {
@@ -62,46 +78,22 @@ function abbr(tz, date) {
  * @returns {null | Array<{label:string, tz:string, abbr:string, range:string}>}
  * null when the start/end in config are still placeholders.
  */
-export function convertHours(studioTz, start, end, zones = US_ZONES, now = new Date()) {
+export function convertHours(studio, start, end, zones = US_ZONES, now = new Date()) {
   const s = parseHHMM(start), e = parseHHMM(end);
   if (!s || !e) return null;
-  const { y, m, d } = ymdIn(studioTz, now);
-  const from = zonedInstant(studioTz, y, m, d, s.h, s.m);
-  let to = zonedInstant(studioTz, y, m, d, e.h, e.m);
+  const { y, m, d } = studioYmd(studio, now);
+  const from = studioInstant(studio, y, m, d, s.h, s.m);
+  let to = studioInstant(studio, y, m, d, e.h, e.m);
   if (to <= from) to = new Date(to.getTime() + 86400000);
-  // Day notes are measured against the day the hours START in the studio's zone, so a late-night
-  // shift that ends after midnight there does not read as "day before" in the US.
-  const sFrom = ymdIn(studioTz, from);
+  // Day notes are measured against the day the hours START on the listed days, so a late shift that
+  // ends after midnight there does not read as "day before" in the US.
+  const sFrom = studioYmd(studio, from);
   const dayDiff = (a, b) => Math.round((Date.UTC(a.y, a.m, a.d) - Date.UTC(b.y, b.m, b.d)) / 86400000);
   const note = (n) => (n === 0 ? "" : n < 0 ? " (day before)" : " (next day)");
   return zones.map((z) => ({
     label: z.label,
     tz: z.id,
     abbr: abbr(z.id, from),
-    // each time carries its own day note, measured against the studio's day
     range: `${fmtTime(z.id, from)}${note(dayDiff(ymdIn(z.id, from), sFrom))} to ${fmtTime(z.id, to)}${note(dayDiff(ymdIn(z.id, to), sFrom))}`
   }));
-}
-
-/** "09:00" -> "9:00 am" */
-export function format12(hhmm) {
-  const t = parseHHMM(hhmm);
-  if (!t) return String(hhmm);
-  const h = t.h % 12 === 0 ? 12 : t.h % 12;
-  return `${h}:${String(t.m).padStart(2, "0")} ${t.h < 12 ? "am" : "pm"}`;
-}
-
-export function tzLongName(tz, date = new Date()) {
-  const part = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "long" })
-    .formatToParts(date).find((x) => x.type === "timeZoneName");
-  return part ? part.value : tz;
-}
-
-/** "UTC+5" or "UTC+5:30" for a time zone, with no country name. */
-export function utcLabel(tz, date = new Date()) {
-  const m = offsetMinutes(tz, date);
-  const sign = m < 0 ? "-" : "+";
-  const abs = Math.abs(m);
-  const h = Math.floor(abs / 60), mm = abs % 60;
-  return `UTC${sign}${h}${mm ? ":" + String(mm).padStart(2, "0") : ""}`;
 }

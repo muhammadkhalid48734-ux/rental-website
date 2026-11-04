@@ -1,13 +1,14 @@
 ---
 import { config } from "../config.js";
-import { convertHours, parseHHMM } from "../lib/hours.js";
-import { hoursSentence } from "../lib/faq.js";
+import { convertHours, parseHHMM, studioOffset } from "../lib/hours.js";
 import Val from "./Val.astro";
 import ContactLink from "./ContactLink.astro";
 import { waOk } from "../lib/contact.js";
 
 const { start, end } = config.supportHours;
 const zones = convertHours(config.timezone, start, end);
+// A plain number goes to the browser, so the studio's zone name never appears in the page.
+const offset = studioOffset(config.timezone);
 ---
 <section class="section" id="about" aria-labelledby="about-title">
   <div class="wrap about">
@@ -25,15 +26,11 @@ const zones = convertHours(config.timezone, start, end);
       <h2 id="about-title">Who you are dealing with</h2>
       <p class="about__lead"><strong>A small remote studio.</strong> We work online.</p>
       <p class="about__name"><strong><Val v={config.ownerName} /></strong>, <Val v={config.ownerRole} /></p>
-      <p>We build booking websites for bounce house and party rental businesses in the US.</p>
       <p><Val v={config.ownerBio} /></p>
-      <p>Everything happens online, by email and by message on Instagram or Facebook, so you can reach us from the truck between deliveries.</p>
 
-      <div class="hours" data-hours data-tz={config.timezone} data-start={start} data-end={end}>
+      <div class="hours" data-hours data-offset={offset} data-start={start} data-end={end}>
         <h3>Support hours</h3>
-        <p class="hours__studio" data-hours-studio>
-          {parseHHMM(start) && parseHHMM(end) ? hoursSentence({ neutral: true }) : <Val v="TODO: supportHours" />}
-        </p>
+        <p class="hours__studio">{parseHHMM(start) && parseHHMM(end) ? `${config.supportHours.daysLabel}, in US time:` : <Val v="TODO: supportHours" />}</p>
         {zones ? (
           <>
             <ul class="hours__list" data-hours-list>
@@ -46,7 +43,6 @@ const zones = convertHours(config.timezone, start, end);
         ) : (
           <p class="hours__fine">US times appear here once support hours are filled in.</p>
         )}
-        <p class="hours__mine" data-hours-mine hidden></p>
         <p class="hours__reply"><strong>Reply time:</strong> <Val v={config.replyTime} />. <strong>Demos:</strong> ready {config.demoTurnaround}.</p>
       </div>
 
@@ -61,8 +57,7 @@ const zones = convertHours(config.timezone, start, end);
   import { convertHours } from "../lib/hours.js";
   const root = document.querySelector("[data-hours]");
   if (root) {
-    const { tz, start, end } = root.dataset;
-    const zones = convertHours(tz, start, end);
+    const zones = convertHours(Number(root.dataset.offset), root.dataset.start, root.dataset.end);
     const list = root.querySelector("[data-hours-list]");
     if (zones && list) {
       list.replaceChildren(
@@ -79,15 +74,6 @@ const zones = convertHours(config.timezone, start, end);
       );
       const fine = root.querySelector("[data-hours-fine]");
       if (fine) fine.hidden = true;
-      try {
-        const mine = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const out = convertHours(tz, start, end, [{ id: mine, label: "Your time" }]);
-        const el = root.querySelector("[data-hours-mine]");
-        if (out && el) {
-          el.textContent = `In your time zone: ${out[0].range} ${out[0].abbr}`;
-          el.hidden = false;
-        }
-      } catch {}
     }
   }
 </script>

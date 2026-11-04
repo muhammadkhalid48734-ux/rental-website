@@ -10,7 +10,5 @@ export function professionalService(siteUrl) {
   if (!isTodo(config.whatsapp)) o.telephone = `+${String(config.whatsapp).replace(/\D/g, "")}`;
   o.description =
     "A small remote web design studio that builds booking websites for bounce house and party rental businesses in the US.";
-  if (config.countryCode) o.address = { "@type": "PostalAddress", addressCountry: config.countryCode };
-  if (config.areaServed) o.areaServed = config.areaServed;
   return o;
 }

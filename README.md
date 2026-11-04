@@ -13,7 +13,9 @@ npm run build     # static site in ./dist
 npm run preview   # serve ./dist locally
 ```
 
-The site runs in dev with placeholders in place. A production build, however, **fails while `locationAnswer` or `governingLaw` still contains "TODO"**, so the two statements that must be accurate cannot ship unconfirmed. To build a draft anyway (checks, previews): `ALLOW_PLACEHOLDERS=1 npm run build`. In `npm run dev` you get a warning banner instead.
+The site runs in dev with placeholders in place. A production build, however, **fails while any value in `src/config.js` still contains "TODO"** (at the moment `siteUrl` and `formEndpoint`). To build a draft anyway (checks, previews): `ALLOW_PLACEHOLDERS=1 npm run build`. In `npm run dev` you get a warning banner instead.
+
+**No location claims.** No page may say or imply where the studio or its owner is based. Every build scans the built HTML and JSON-LD (`scripts/location-scan.mjs`) and fails if it finds words like "based in", "located in", "headquartered", "US-based", a country name or code, an address, or the studio's time zone name. Run it by hand with `npm run check:location`.
 
 ## All business details live in `src/config.js`
 
@@ -24,10 +26,10 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | Who you are | `studioName`, `ownerName`, `ownerRole`, `ownerPhoto`, `ownerBio` |
 | Site | `siteUrl` (full `https://` URL, used for canonical, OG tags, sitemap) |
 | Contact | `email`, `whatsapp` (optional, hidden everywhere while empty), `formEndpoint`, `formProvider`. The only contact methods shown are email and Instagram/Facebook messages. |
-| Hours | `timezone`, `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime`, `demoTurnaround` |
+| Hours | `timezone` (only used to calculate US times, never shown), `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime`, `demoTurnaround` |
 | Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `setupDays`, `pendingHoldHours`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
-| Where you are and legal | `locationAnswer`, `governingLaw`, `disputeResolution`, `postalAddress`, `legalLastUpdated` |
+| Legal | `disputeResolution`, `legalLastUpdated` |
 | Other | `testimonials`, `analytics`, `indexSampleSites` |
 
 Notes:
@@ -38,7 +40,7 @@ Notes:
 - **Add-ons.** `addons` is empty because you pay only the monthly plan. If you add entries, an Add-ons list returns, but the "pay only the monthly plan" wording would then no longer be true.
 - **Text reminders.** While `smsAvailable` is `false`, every mention (plan card, compare table, FAQ, Terms) shows "Coming soon". Prices still compute.
 - **Testimonials.** The section renders nothing until `testimonials` has entries with `permission: true`.
-- **Support hours.** Once `start` and `end` are real `HH:MM` values, US Eastern, Central, Mountain and Pacific times are shown. They are recalculated in the visitor's browser for today's date (daylight saving included), with a build-time fallback if JavaScript is off.
+- **Support hours.** Only US Eastern, Central, Mountain and Pacific times are shown, never the zone the hours are set in. They are recalculated in the visitor's browser for today's date (daylight saving included), with a build-time fallback if JavaScript is off.
 - **Analytics.** Off by default. Set `analytics.enabled: true`, plus `domain` (and `scriptSrc` if you don't use Plausible), for a cookie-free script. The Privacy page text changes to match.
 - **Sample sites.** `/samples/...` pages ask search engines not to index them (they are made-up businesses). Set `indexSampleSites: true` to allow it.
 

@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:location": "node scripts/location-scan.mjs dist"
   },
   "engines": {
     "node": ">=20"

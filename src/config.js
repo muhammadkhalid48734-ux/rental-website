@@ -4,9 +4,12 @@
 // Anything that starts with "TODO" is a placeholder. The site shows placeholders as plain text
 // and leaves them out of JSON-LD, the OG image and mailto/whatsapp links until you fill them in.
 //
-// Two values MUST be real before a production build: `locationAnswer` and `governingLaw`.
-// `npm run build` fails while either still contains "TODO" (see astro.config.mjs). In `npm run dev`
-// you get a warning instead. To build a draft anyway (checks, previews): ALLOW_PLACEHOLDERS=1 npm run build
+// A production build (`npm run build`) FAILS while any value below still contains "TODO"
+// (see astro.config.mjs). In `npm run dev` you get a warning banner instead. To build a draft
+// anyway (checks, previews): ALLOW_PLACEHOLDERS=1 npm run build
+//
+// No page may say or imply where the studio or its owner is based. The build also scans the built
+// HTML and JSON-LD and fails if it finds location wording (see scripts/location-scan.mjs).
 // Prices, plan features, statuses, the minimum term and the monthly prices on the page are all
 // rendered from this file, so the page cannot contradict itself.
 // =============================================================================
@@ -18,10 +21,8 @@ export const config = {
   ownerRole: "Founder",
   ownerPhoto: "", // optional. Path under /public, e.g. "/owner.webp". Empty = placeholder box.
   // One honest sentence about you, in your own words. Shown in "Who you're dealing with".
-  ownerBio: "TODO: ownerBio",
-  country: "Pakistan",
-  countryCode: "PK", // ISO code, used only in JSON-LD
-  areaServed: "United States",
+  ownerBio:
+    "I'm Haseeb, and I run Hopbook, a small studio that builds simple booking websites for bounce house and party rental businesses. You can reach me by email or by message on Instagram or Facebook.",
 
   // ---- Where the site lives ----------------------------------------------
   // Full URL with https://, no trailing slash. Needed for canonical links,
@@ -39,7 +40,8 @@ export const config = {
   formProvider: "Formspree", // shown on the privacy page
 
   // ---- Hours --------------------------------------------------------------
-  // IANA timezone the hours below are in.
+  // IANA time zone the hours below are in. Used ONLY to calculate the US times; it is never shown
+  // on the page or put in the HTML.
   timezone: "Asia/Karachi",
   supportHours: {
     daysLabel: "Monday to Saturday",
@@ -162,19 +164,8 @@ export const config = {
   // index them, so nobody finds a fictional business in search results. Set true to allow indexing.
   indexSampleSites: false,
 
-  // ---- Where you are (must be accurate before launch) ----------------------
-  // Used in the FAQ answers "Are you in the US, and how do we talk?" and "Where are you based?".
-  // Remove the "TODO: " at the start once you have confirmed every word is true. Never claim or imply
-  // you are physically local to a visitor. No location appears in the hero or the About section.
-  locationAnswer:
-    "TODO: I'm from the US and I'm currently working remotely, so everything is done online by email and by message on Instagram or Facebook.",
-
   // ---- Legal pages --------------------------------------------------------
   legalLastUpdated: "November 4, 2026",
-  // Shown on the Privacy and Terms pages wherever they ask for contact details. Never invented.
-  postalAddress: "TODO: postalAddress",
-  governingLaw:
-    "TODO: the laws of the State of [STATE], USA, only if my legal address or business registration is there",
   disputeResolution: "Before any formal dispute, both sides try to resolve it by email within 30 days."
 };
 

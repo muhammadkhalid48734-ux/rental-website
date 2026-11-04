@@ -3,23 +3,12 @@ import { config } from "../config.js";
 import { money, minutesText } from "./pricing.js";
 import { termsOwn, noDemo } from "./terms.js";
 import { emailHref, waHref, waOk } from "./contact.js";
-import { parseHHMM, format12, tzLongName, utcLabel } from "./hours.js";
 
 const email = () => (emailHref() ? `<a href="${emailHref()}">${config.email}</a>` : config.email);
 const whatsappLink = () => `<a href="${waHref()}" target="_blank" rel="noopener">WhatsApp</a>`;
 /** Ways to reach us: email, Instagram/Facebook messages, and WhatsApp only once it is set. */
 const reachUs = () =>
   `email at ${email()} or on Instagram or Facebook${waOk() ? `, or on ${whatsappLink()}` : ""}`;
-
-/** "Monday to Saturday, 8:00 pm to 2:00 am Pakistan time". `neutral` shows "UTC+5" instead of a country name. */
-export function hoursSentence({ neutral = false } = {}) {
-  const { daysLabel, start, end } = config.supportHours;
-  if (parseHHMM(start) && parseHHMM(end)) {
-    const zone = neutral ? `(${utcLabel(config.timezone)})` : `${tzLongName(config.timezone).replace(" Standard Time", "")} time`;
-    return `${daysLabel}, ${format12(start)} to ${format12(end)} ${zone}`;
-  }
-  return "TODO: supportHours";
-}
 
 export function buildFaq() {
   const [found, booked, paid] = config.packages;
@@ -91,7 +80,7 @@ export function buildFaq() {
     },
     {
       q: "What if something breaks, and who answers?",
-      a: `Message us by ${reachUs()}. A person on our small team answers during support hours (${hoursSentence({ neutral: true })}), and we reply ${config.replyTime}.`
+      a: `Message us by ${reachUs()}. A person on our small team answers during support hours (shown above in US time zones), and we reply ${config.replyTime}.`
     },
     {
       q: "How fast will I have the demo?",
@@ -122,12 +111,8 @@ export function buildFaq() {
       a: `Plans are monthly. After the ${n}-month minimum you can cancel anytime, but then the calendar, reminders and edits stop, and we send you your site files. ${found.name} is the lowest-cost plan, at ${money(found.monthly)} a month.`
     },
     {
-      q: "Are you in the US, and how do we talk?",
-      a: `${config.locationAnswer} Our support hours are shown above, with US times.`
-    },
-    {
-      q: "Where are you based?",
-      a: config.locationAnswer
+      q: "How do we work together?",
+      a: "Everything is done online, by email and by message on Instagram or Facebook, so you never need to meet or call."
     },
     {
       q: "Can I get an invoice and a written agreement?",

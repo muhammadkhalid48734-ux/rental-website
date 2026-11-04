@@ -4,6 +4,7 @@ import "../styles/base.css";
 import "../styles/sections.css";
 import { config } from "../config.js";
 import { isTodo } from "../lib/pricing.js";
+import { todoKeys } from "../lib/todos.js";
 
 const {
   title,
@@ -19,7 +20,7 @@ const canonical = site + (path === "/" ? "/" : path.replace(/\/?$/, "/"));
 const ogImage = `${site}/og.png`;
 const fullTitle = title;
 const a = config.analytics;
-const mustBeReal = ["locationAnswer", "governingLaw"].filter((k) => String(config[k]).includes("TODO"));
+const openTodos = todoKeys(config);
 ---
 <!doctype html>
 <html lang="en-US">
@@ -55,9 +56,9 @@ const mustBeReal = ["locationAnswer", "governingLaw"].filter((k) => String(confi
     {a.enabled && a.domain && <script defer data-domain={a.domain} src={a.scriptSrc}></script>}
   </head>
   <body class={bodyClass}>
-    {import.meta.env.DEV && mustBeReal.length > 0 && (
+    {import.meta.env.DEV && openTodos.length > 0 && (
       <div class="dev-banner dev-banner--top" role="note">
-        <strong>Dev only:</strong> <code>{mustBeReal.join(" and ")}</code> in <code>src/config.js</code> still contain TODO. A production build will fail until they are real. This banner never appears in the production build.
+        <strong>Dev only:</strong> still TODO in <code>src/config.js</code>: <code>{openTodos.join(", ")}</code>. A production build will fail until they are filled in. This banner never appears in the production build.
       </div>
     )}
     <a class="skip-link" href="#main">Skip to content</a>
