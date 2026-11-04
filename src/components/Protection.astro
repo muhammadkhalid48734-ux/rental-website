@@ -1,17 +1,18 @@
 ---
 import { config } from "../config.js";
+import { termsOwn, termsFree, noDemo } from "../lib/terms.js";
 import Val from "./Val.astro";
 const points = [
-  { h: "It’s yours", p: "Your website, domain and photos are always yours." },
-  { h: "No contract", p: "Cancel anytime." },
-  { h: "Don’t like the demo? You pay nothing", p: "The demo is free and private. You pay only if you want it live." },
-  { h: "How payment works", p: "You only pay after you’ve seen the demo.", extra: config.paymentMethod }
+  { h: "It’s yours", p: termsOwn() },
+  { h: "Free build, simple terms", p: termsFree() },
+  { h: "Don’t like the demo? You pay nothing", p: `${noDemo()} The demo is free and private.` },
+  { h: "How payment works", p: "You only pay after you’ve seen the demo and said yes.", extra: config.paymentMethod }
 ];
 ---
 <section class="section" id="protected" aria-labelledby="protected-title">
   <div class="wrap protect">
     <div class="section__head">
-      <h2 id="protected-title">You can’t get burned</h2>
+      <h2 id="protected-title">You’re protected</h2>
       <p>Four promises, in plain words.</p>
     </div>
     <ul class="protect__list">

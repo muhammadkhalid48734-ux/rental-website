@@ -1,39 +1,53 @@
 ---
 import Legal from "../layouts/Legal.astro";
 import Val from "../components/Val.astro";
+import SetupNote from "../components/SetupNote.astro";
 import ContactLink from "../components/ContactLink.astro";
 import { config } from "../config.js";
-import { byId, money } from "../lib/pricing.js";
-const [website, books, full] = config.packages;
+import { money, planPrice, founding, foundingPeriod, minutesText } from "../lib/pricing.js";
+import { termsFree, termsOwn, noDemo } from "../lib/terms.js";
+const [found, booked, paid] = config.packages;
+const line = (p) => {
+  const pr = planPrice(p);
+  return founding() ? `${p.name} (${pr.main} a month for ${foundingPeriod()}, then ${pr.regular} a month)` : `${p.name} (${pr.main} a month)`;
+};
 ---
-<Legal title="Terms" description="Plain-English terms for the free demo, the plans, payment, ownership and cancelling.">
+<Legal title="Terms" description="Plain-English terms for the free demo, the monthly plans, the minimum term, payment, ownership and leaving.">
   <p>These terms explain how working with <Val v={config.studioName} /> works. If anything here is unclear, ask us before you pay.</p>
 
   <h2>The free demo</h2>
-  <p>The demo is free and private. We build it from your public page after you ask for it. You pay only if you want it live. If you do not like it, you pay nothing. We do not publish your demo without your OK.</p>
+  <p>The demo is free and private. We build it from your public page after you ask for it. {noDemo()} We do not publish your demo without your OK.</p>
 
-  <h2>What we sell</h2>
-  <p>We sell three plans: {website.name} ({money(website.setup)} one time, no monthly fee), {books.name} ({money(books.setup)} plus {money(books.monthly)} per month), and {full.name} ({money(full.setup)} plus {money(full.monthly)} per month). The home page lists exactly what each plan includes, and the add-ons and their prices.</p>
+  <h2>What you pay</h2>
+  <p>{termsFree()} We sell three monthly plans: {line(found)}, {line(booked)} and {line(paid)}. The home page lists exactly what each plan includes.</p>
+  {founding() && <p>Founding prices apply for {foundingPeriod()}. After that, the regular monthly price applies.</p>}
+
+  <h2>The {config.minimumMonths}-month minimum</h2>
+  <p>You pay the monthly plan for at least {config.minimumMonths} months. After that you can cancel anytime. If you leave before the {config.minimumMonths} months are up, the months left in the minimum are still due.</p>
 
   <h2>Payment</h2>
-  <p>You pay only after you have seen the demo. <Val v={config.paymentMethod} /></p>
+  <p>You only pay after you have seen the demo and said yes. <Val v={config.paymentMethod} /></p>
+  <p>If your plan includes online deposits, your customers pay through your own Square or Stripe account. We never receive, hold or process your customers' money.</p>
 
-  <h2>No contract</h2>
-  <p>There is no contract. You can cancel a monthly plan anytime. {config.policies.stopPaying}</p>
+  <h2>When things are set up</h2>
+  <p>After you sign up, the features in your plan are <SetupNote lower /> Until then, the demo shows how they will look. The demo is not a live service.</p>
 
-  <h2>What is yours</h2>
-  <p>Your website, domain and photos are yours. You keep the right to use your own business name, logo and photos. We keep the right to show that we built the site only if you say yes.</p>
+  <h2>What is yours, and if you leave</h2>
+  <p>{termsOwn()} {config.policies.stopPaying}</p>
 
-  <h2>Revisions and edits</h2>
-  <p>Each plan includes a number of revision rounds and, on the monthly plans, minutes of edits per month. Anything beyond that is billed as an add-on at the price on the home page.</p>
+  <h2>Edits</h2>
+  <p>Each plan includes edits every month: {found.name} {minutesText(found.editMinutes)}, {booked.name} {minutesText(booked.editMinutes)}, {paid.name} {minutesText(paid.editMinutes)}.</p>
 
   <h2>Text message reminders</h2>
   <p>{config.smsAvailable
     ? "Text reminders only go to customers who have agreed to get them. Your customers must be asked to agree at booking, and every text lets them reply STOP. Provider costs may apply."
     : "Text reminders are coming soon. When they launch, they will only go to customers who have agreed to get them."}</p>
 
+  <h2>Reviews</h2>
+  <p>We ask every customer for a review and give everyone the Google link. We never filter or block low ratings, and we never pay for reviews.</p>
+
   <h2>What we can and cannot promise</h2>
-  <p>We do our best to keep your site working and your reminders going out. Websites and online services can fail, and we cannot promise they never will. The sample websites and the sample calendar on our site are made up, and show what a site could look like. They are not real businesses and not a promise of results.</p>
+  <p>We do our best to keep your site working and your reminders going out. Websites and online services can fail, and we cannot promise they never will. The sample websites and the sample calendar and messages on our site are made up, and show what a site could look like. They are not real businesses and not a promise of results.</p>
 
   <h2>Contact and disputes</h2>
   <p>Talk to us first at <ContactLink kind="email" />. Governing law and where disputes are handled: <Val v="TODO: governing law and venue (get legal advice)" />.</p>

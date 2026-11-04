@@ -1,0 +1,8 @@
+---
+// "Set up within N working days after you sign up." N comes from config.setupDays.
+// Pass `lower` when it continues a sentence.
+import { config } from "../config.js";
+import Val from "./Val.astro";
+const { lower = false } = Astro.props;
+---
+{lower ? "set" : "Set"} up within <Val v={config.setupDays} /> working days after you sign up.

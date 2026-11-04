@@ -4,7 +4,7 @@
 // Anything that starts with "TODO" is a placeholder. The site builds and runs
 // with placeholders, shows them as plain text, and leaves them out of
 // JSON-LD, the OG image and mailto/whatsapp links until you fill them in.
-// Prices, plan features, add-ons and first-year costs on the page are all
+// Prices, plan features, statuses, the minimum term and the founding offer on the page are all
 // rendered from this file, so the page cannot contradict itself.
 // =============================================================================
 
@@ -47,118 +47,97 @@ export const config = {
   demoTurnaround:
     "usually within the hour during our support hours, otherwise by the next morning (US time)",
 
-  // ---- Money --------------------------------------------------------------
+  // ---- Offer: free website build, monthly plans ---------------------------
   currency: "$",
-  domainEstimatePerYear: 12, // shown as "about $12/year" for the Website plan
+  // Minimum number of monthly payments. Used in "3-month minimum, then cancel anytime" everywhere.
+  minimumMonths: 3,
+  // Working days between sign-up and everything being set up. Shown wherever a feature is
+  // marked "after-signup". You have not given a number yet, so it stays a placeholder.
+  setupDays: "TODO: setupDays",
+  // How long a pending request can hold a date if the owner turns the hold on (FAQ + sample).
+  pendingHoldHours: 24,
   paymentMethod: "TODO: PAYMENT_METHOD", // how you take payment, e.g. invoice paid by card or bank transfer
   // Set true once text reminders really work. While false, every place that
   // mentions text reminders shows a "Coming soon" tag and the FAQ says so.
   smsAvailable: false,
 
+  // Founding offer. Default OFF. When true, each plan shows its `foundingMonthly` price for the
+  // first `foundingMonths` months, then the regular `monthly` price.
+  foundingOffer: false,
+  foundingMonths: 12,
+
   packages: [
     {
-      id: "website",
-      name: "Website",
-      tagline: "A clean site that sends you booking requests.",
-      setup: 247,
-      monthly: 0,
+      id: "found",
+      name: "Get Found",
+      tagline: "A modern site on your domain that answers every inquiry and asks for reviews.",
+      monthly: 59,
+      foundingMonthly: 39,
       recommended: false,
-      revisionRounds: 1,
-      editsPerMonth: null, // minutes. null = none included
-      features: [
-        "Modern mobile site with your items and photos",
-        "Photo gallery",
-        "Booking request form (requests arrive by email)",
-        "Your domain connected",
-        "1 round of revisions",
-        "Hosted on a free static host, in your own account",
-        "Later changes billed per task"
-      ]
+      editMinutes: 15 // included per month
     },
     {
-      id: "books",
-      name: "Website that books for you",
-      tagline: "Shows open dates, blocks booked ones, and follows up for you.",
-      setup: 297,
-      monthly: 33,
+      id: "booked",
+      name: "Get Booked",
+      tagline: "Shows open dates, protects against double bookings and follows up for you.",
+      monthly: 99,
+      foundingMonthly: 69,
       recommended: true,
-      revisionRounds: 2,
-      editsPerMonth: 30,
-      features: [
-        "Everything in Website",
-        "Availability calendar that blocks booked dates",
-        "Booking confirmation email",
-        "Reminder before the event",
-        "Review request after the event",
-        "Hosting and uptime checks",
-        "Reminder and follow-up upkeep",
-        "30 minutes of edits per month",
-        "2 rounds of revisions"
-      ]
+      editMinutes: 30
     },
     {
-      id: "full",
-      name: "Book, pay & sign online",
-      tagline: "Customers book, pay a deposit and sign the waiver from their phone.",
-      setup: 597,
-      monthly: 79,
+      id: "paid",
+      name: "Get Paid",
+      tagline: "Takes deposits through your own account, signs waivers and rebooks customers.",
+      monthly: 179,
+      foundingMonthly: 129,
       recommended: false,
-      revisionRounds: 3,
-      editsPerMonth: 120,
-      features: [
-        "Everything in Website that books for you",
-        "Online deposit payment",
-        "Rental waiver customers sign on their phone",
-        { text: "Text message reminders (customer must opt in; provider cost may apply)", sms: true },
-        "Google Business Profile setup",
-        "Short monthly report",
-        "2 hours of edits per month, 24-hour turnaround",
-        "3 rounds of revisions"
-      ]
+      editMinutes: 120
     }
   ],
 
-  // Comparison table. Each row: one value per plan, in the order of `packages`.
-  // true = included, false = not included, or a short text.
-  compare: [
-    { label: "Mobile site with your items, photos and gallery", values: [true, true, true] },
-    { label: "Booking request form (by email)", values: [true, true, true] },
-    { label: "Your domain connected", values: [true, true, true] },
-    { label: "Availability calendar that blocks booked dates", values: [false, true, true] },
-    { label: "Booking confirmation email", values: [false, true, true] },
-    { label: "Reminder before the event", values: [false, true, true] },
-    { label: "Review request after the event", values: [false, true, true] },
-    { label: "Hosting and uptime checks", values: ["Free host, your account", true, true] },
-    { label: "Online deposit payment", values: [false, false, true] },
-    { label: "Rental waiver signed on the phone", values: [false, false, true] },
-    { label: "Text message reminders", values: [false, false, true], sms: true },
-    { label: "Google Business Profile setup", values: [false, false, true] },
-    { label: "Monthly report", values: [false, false, true] },
-    { label: "Edits included per month", values: ["Billed per task", "30 minutes", "2 hours, 24-hour turnaround"] },
-    { label: "Rounds of revisions", values: ["1", "2", "3"] }
+  // Every plan feature, once. `plan` = index in `packages` of the first plan that includes it
+  // (Get Booked includes everything in Get Found, Get Paid everything in Get Booked).
+  // The plan cards and the compare table are both built from this list.
+  //
+  // status: "ready"        = part of the plan from the start
+  //         "after-signup" = set up after the customer signs up. The page says so and never shows
+  //                          these as already running. Default for anything involving automation,
+  //                          calendar, deposits, reviews.
+  features: [
+    { text: "Modern mobile site on your domain", plan: 0, status: "ready" },
+    { text: "Hosting", plan: 0, status: "ready" },
+    { text: "Inquiry form with an instant alert to you", plan: 0, status: "after-signup" },
+    { text: "Auto-reply to every inquiry", plan: 0, status: "after-signup" },
+    { text: "Review request after each event. Every customer gets your Google link", plan: 0, status: "after-signup" },
+
+    { text: "Availability calendar for each item", plan: 1, status: "after-signup" },
+    { text: "Double-booking protection", plan: 1, status: "after-signup" },
+    { text: "Deposit tracking, with reminders for unpaid deposits", plan: 1, status: "after-signup" },
+    { text: "Follow-up for unbooked inquiries (after 1, 3 and 7 days)", plan: 1, status: "after-signup" },
+    { text: "Booking confirmation and a reminder before the event", plan: 1, status: "after-signup" },
+    { text: "Short monthly report", plan: 1, status: "after-signup" },
+
+    { text: "Online deposits through your own Square or Stripe account", plan: 2, status: "after-signup" },
+    { text: "Rental waiver e-sign", plan: 2, status: "after-signup" },
+    { text: "Text reminders (customer opt-in required; provider costs may apply)", plan: 2, status: "after-signup", sms: true },
+    { text: "Rebooking reminder a year later", plan: 2, status: "after-signup" },
+    { text: "Google Business Profile setup", plan: 2, status: "after-signup" }
   ],
 
-  addons: [
-    { name: "Online deposit link", price: 90 },
-    { name: "Waiver e-sign", price: 70 },
-    { name: "SMS reminders setup", price: 70, extra: "plus provider cost", sms: true },
-    { name: "Google Business Profile", price: 80 },
-    { name: "Extra page", price: 40 },
-    { name: "Extra reminder or follow-up", price: 50 },
-    { name: "Logo and colour refresh", price: 60 },
-    { name: "Extra edits", price: 30, per: "30 min" }
-  ],
-  addonCreditNote:
-    "Want the Book, pay & sign online features later? What you already paid for add-ons counts toward the upgrade.",
+  // One-time add-ons. Empty on purpose: the website build is free and you pay only the monthly
+  // plan. If you add items here, an "Add-ons" list appears under the plans again
+  // (each: { name, price, per?, extra?, sms? }) and the "pay only the monthly plan" line is no longer true.
+  addons: [],
 
   // ---- Promises and policies ---------------------------------------------
   policies: {
     stopPaying:
-      "Your domain and photos stay yours. If you stop the monthly plan, we send you your website files or move the site to your own hosting account, and the calendar, reminders and edits stop.",
+      "Your domain, photos and text always belong to you. If you leave, we send you your site files, and the calendar, reminders and edits stop.",
     outreachDisclosure:
       "We found your public page and sent one message. Reply STOP or tell us to stop and we won't write again.",
-    // How a customer's booking turns into a blocked date on the calendar plans.
-    markBooked: "TODO: markBooked", // e.g. "Message us the date and we block it."
+    // How the owner confirms a booking, or tells us a deposit has arrived (this is what blocks a date).
+    markBooked: "TODO: markBooked", // e.g. "Reply to the booking email with Confirm and we block the date."
     invoiceAgreement: "TODO: invoiceAgreement", // what you can send and when: invoice, written agreement
     // Set true ONLY if you really promise one rental business per town.
     exclusivity: false,

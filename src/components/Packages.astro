@@ -1,7 +1,9 @@
 ---
 import { config } from "../config.js";
-import { priceLine, firstYearLine, featureText, featureIsSms } from "../lib/pricing.js";
+import { planPrice, editsText, newFeatures, hasAfterSignup, founding, foundingPeriod } from "../lib/pricing.js";
+import { termsFull } from "../lib/terms.js";
 import Check from "./Check.astro";
+import Legend from "./Legend.astro";
 import CompareTable from "./CompareTable.astro";
 import Addons from "./Addons.astro";
 ---
@@ -9,36 +11,54 @@ import Addons from "./Addons.astro";
   <div class="wrap">
     <div class="section__head">
       <h2 id="packages-title">Pick what you need</h2>
-      <p>Setup and monthly price are always shown together, with what the first year costs.</p>
+      <p>Website build is free. You pay only the monthly plan.</p>
+    </div>
+
+    <div class="plans__terms">
+      <p><strong>{termsFull()}</strong></p>
+      {hasAfterSignup() && (
+        <p class="plans__setup">Nothing below is running for you today. Features with a clock icon are set up after you sign up.</p>
+      )}
+      {founding() && (
+        <p class="plans__setup">Founding prices apply for {foundingPeriod()}. After that, the regular monthly price applies.</p>
+      )}
+      <Legend />
     </div>
 
     <ul class="plans">
-      {config.packages.map((p) => {
-        const price = priceLine(p);
-        const fy = firstYearLine(p);
+      {config.packages.map((p, i) => {
+        const price = planPrice(p);
         return (
           <li class:list={["plan", p.recommended && "plan--rec"]}>
             {p.recommended && <span class="tag tag--rec plan__flag">Recommended</span>}
             <h3>{p.name}</h3>
             <p class="plan__tagline">{p.tagline}</p>
             <p class="plan__price">
-              <span class="plan__setup mono">{price.setup}</span>
-              <span class="plan__monthly">{p.monthly === 0 ? price.monthly : <span class="mono">{price.monthly}</span>}</span>
+              <span class="plan__setup mono">{price.main}</span>
+              <span class="plan__monthly">/month</span>
+              {price.founding && <span class="tag tag--rec plan__founding">Founding price</span>}
             </p>
-            <p class="plan__setuplabel">{p.monthly === 0 ? "One-time setup" : "Setup, then monthly"}</p>
+            {price.sub && <p class="plan__setuplabel">{price.sub}</p>}
             <p class="plan__first">
-              <span class="plan__firstlabel">{fy.label}</span>
-              <span class="mono plan__firstmath">{fy.math}</span>
-              {fy.note && <span class="plan__firstnote">{fy.note}</span>}
+              <span class="plan__firstlabel">Website build</span>
+              <span class="plan__firstmath">Free</span>
+              <span class="plan__firstnote">You pay only the monthly plan.</span>
             </p>
             <ul class="plan__features">
-              {p.features.map((f) => (
-                <li><Check />
-                  <span>{featureText(f)}{featureIsSms(f) && !config.smsAvailable && <> <span class="tag tag--soon">Coming soon</span></>}</span>
+              {i > 0 && <li class="plan__everything">Everything in {config.packages[i - 1].name}, plus:</li>}
+              {newFeatures(i).map((f) => (
+                <li>
+                  <Check kind={f.status === "ready" ? "yes" : "setup"} />
+                  <span>
+                    {f.text}
+                    {f.status === "after-signup" && <span class="sr-only">. Set up after you sign up.</span>}
+                    {f.sms && !config.smsAvailable && <> <span class="tag tag--soon">Coming soon</span></>}
+                  </span>
                 </li>
               ))}
+              <li><Check kind="yes" /><span>{editsText(p)}</span></li>
             </ul>
-            {p.features.some(featureIsSms) && !config.smsAvailable && (
+            {newFeatures(i).some((f) => f.sms) && !config.smsAvailable && (
               <p class="plan__note">Text reminders are coming soon. Until then, reminders go by email.</p>
             )}
             <a class:list={["btn", "btn--block", p.recommended ? "btn--primary" : "btn--ghost"]} href="#demo" data-scroll-form>Get my free demo</a>
@@ -46,7 +66,7 @@ import Addons from "./Addons.astro";
         );
       })}
     </ul>
-    <p class="plans__fine">The demo is free and private. You pay only if you want it live.</p>
+    <p class="plans__fine">If you don't like the demo you pay nothing.</p>
 
     <CompareTable />
     <Addons />

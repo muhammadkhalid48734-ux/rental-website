@@ -123,7 +123,7 @@ export function initBooking(root) {
   next.addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
   root.addEventListener("change", (e) => { if (e.target.matches('input[type="radio"]')) { status.textContent = ""; status.classList.remove("is-shown"); update(); } });
   request.addEventListener("click", () => {
-    status.textContent = "Sample only. Nothing was sent. On your own site, this request would arrive in your email.";
+    status.textContent = "Sample only. Nothing was sent. On a real site, the owner would get an instant alert and the customer an auto-reply. The date stays pending until the owner confirms it.";
     status.classList.add("is-shown");
   });
 

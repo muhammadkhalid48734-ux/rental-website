@@ -1,12 +1,14 @@
 ---
 import { config } from "../config.js";
-import { priceLine } from "../lib/pricing.js";
+import { planPrice, compareRows } from "../lib/pricing.js";
 import Check from "./Check.astro";
 
+const rows = compareRows();
 const cell = (row, i) => {
   const v = row.values[i];
-  if (row.sms && v === true && !config.smsAvailable) return { kind: "soon" };
-  if (v === true) return { kind: "yes" };
+  if (row.sms && v && !config.smsAvailable) return { kind: "soon" };
+  if (v === "ready") return { kind: "yes" };
+  if (v === "after-signup") return { kind: "setup" };
   if (v === false) return { kind: "no" };
   return { kind: "text", text: v };
 };
@@ -28,15 +30,19 @@ const cell = (row, i) => {
           ))}
         </tr>
         <tr class="compare__prices">
-          <th scope="row">Price</th>
+          <th scope="row">Price per month</th>
           {config.packages.map((p) => {
-            const pl = priceLine(p);
-            return <td class:list={[p.recommended && "is-rec"]}><span class="mono">{pl.setup}</span> <span class="compare__sub">{pl.monthly}</span></td>;
+            const pr = planPrice(p);
+            return <td class:list={[p.recommended && "is-rec"]}><span class="mono">{pr.main}</span>{pr.sub && <> <span class="compare__sub">{pr.sub}</span></>}</td>;
           })}
+        </tr>
+        <tr class="compare__prices">
+          <th scope="row">Website build</th>
+          {config.packages.map((p) => <td class:list={[p.recommended && "is-rec"]}>Free</td>)}
         </tr>
       </thead>
       <tbody>
-        {config.compare.map((row) => (
+        {rows.map((row) => (
           <tr>
             <th scope="row">{row.label}</th>
             {config.packages.map((p, i) => {
@@ -44,6 +50,7 @@ const cell = (row, i) => {
               return (
                 <td class:list={[p.recommended && "is-rec"]}>
                   {c.kind === "yes" && <><Check /><span class="sr-only">Included</span></>}
+                  {c.kind === "setup" && <><Check kind="setup" /><span class="sr-only">Included, set up after you sign up</span></>}
                   {c.kind === "no" && <><Check kind="no" /><span class="sr-only">Not included</span></>}
                   {c.kind === "soon" && <span class="tag tag--soon">Coming soon</span>}
                   {c.kind === "text" && c.text}
@@ -57,26 +64,28 @@ const cell = (row, i) => {
   </div>
 
   <div class="compare__acc">
-    {config.packages.map((p) => {
-      const pl = priceLine(p);
+    {config.packages.map((p, pi) => {
+      const pr = planPrice(p);
       return (
         <details class="acc">
           <summary>
             <span class="acc__name">{p.name}</span>
-            <span class="acc__price mono">{pl.setup}{p.monthly ? ` + ${pl.monthly.replace("+ ", "")}` : ""}</span>
+            <span class="acc__price mono">{pr.main}/month</span>
           </summary>
           <ul class="acc__list">
-            {config.compare.map((row) => {
-              const c = cell(row, config.packages.indexOf(p));
+            {rows.map((row) => {
+              const c = cell(row, pi);
               return (
                 <li>
                   {c.kind === "yes" && <Check />}
+                  {c.kind === "setup" && <Check kind="setup" />}
                   {c.kind === "no" && <Check kind="no" />}
                   {(c.kind === "text" || c.kind === "soon") && <span class="ic" aria-hidden="true"></span>}
                   <span>
                     {row.label}
                     {c.kind === "no" && <span class="sr-only">: not included</span>}
                     {c.kind === "yes" && <span class="sr-only">: included</span>}
+                    {c.kind === "setup" && <span class="sr-only">: included, set up after you sign up</span>}
                     {c.kind === "text" && <span class="acc__val">: {c.text}</span>}
                     {c.kind === "soon" && <> <span class="tag tag--soon">Coming soon</span></>}
                   </span>

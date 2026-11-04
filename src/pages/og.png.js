@@ -4,7 +4,8 @@ import path from "node:path";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import { config } from "../config.js";
-import { isTodo } from "../lib/pricing.js";
+import { isTodo, fromLine } from "../lib/pricing.js";
+import { heroHeadline } from "../lib/copy.js";
 
 const font = (pkg, file) => fs.readFileSync(path.join(process.cwd(), "node_modules", "@fontsource", pkg, "files", file));
 
@@ -25,10 +26,10 @@ export async function GET() {
     // copy
     h("div", { position: "absolute", left: 64, top: 64, width: 700, flexDirection: "column" }, [
       h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 28, color: "#12236b", marginBottom: 28 }, "Booking websites for bounce house and party rental businesses"),
-      h("div", { fontFamily: "Bricolage Grotesque", fontWeight: 800, fontSize: 76, lineHeight: 1.02, letterSpacing: -2, color: "#0f1a33" }, "A booking website, so you stop answering “Is Saturday open?”"),
+      h("div", { fontFamily: "Bricolage Grotesque", fontWeight: 800, fontSize: 76, lineHeight: 1.02, letterSpacing: -2, color: "#0f1a33" }, heroHeadline),
     ]),
     h("div", { position: "absolute", left: 64, bottom: 56, width: 700, flexDirection: "column" }, [
-      h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 30, color: "#0f1a33" }, "Free private demo. You only pay if you want it live."),
+      h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 30, color: "#0f1a33" }, fromLine()),
       name ? h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 26, color: "#55617a", marginTop: 10 }, name) : h("div", {}, ""),
     ]),
   ]);

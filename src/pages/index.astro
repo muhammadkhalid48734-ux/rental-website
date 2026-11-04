@@ -15,13 +15,15 @@ import ContactForm from "../components/ContactForm.astro";
 import Footer from "../components/Footer.astro";
 import StickyCta from "../components/StickyCta.astro";
 import { config } from "../config.js";
-import { isTodo } from "../lib/pricing.js";
+import { isTodo, cheapest, founding, cheapestFounding, money } from "../lib/pricing.js";
 import { professionalService } from "../lib/jsonld.js";
 
 const base = "Booking websites for bounce house and party rental businesses";
 const title = isTodo(config.studioName) ? base : `${base} | ${config.studioName}`;
-const description =
-  "Booking websites for bounce house and party rental owners. Get a free private demo. You only pay if you want it live.";
+const from = founding()
+  ? `from ${money(cheapestFounding().foundingMonthly)} for the first year`
+  : `from ${money(cheapest().monthly)}`;
+const description = `Booking websites for bounce house and party rental owners. Free website build, monthly plans ${from}. Get a free private demo.`;
 const site = Astro.site.toString().replace(/\/$/, "");
 ---
 <Base title={title} description={description} jsonld={professionalService(site)}>

@@ -1,0 +1,10 @@
+---
+// Key for the two icons used in the plan cards and compare table.
+import Check from "./Check.astro";
+import SetupNote from "./SetupNote.astro";
+import { hasAfterSignup } from "../lib/pricing.js";
+---
+<ul class="legend">
+  <li><Check kind="yes" /><span>Included from the start</span></li>
+  {hasAfterSignup() && <li><Check kind="setup" /><span><SetupNote /></span></li>}
+</ul>

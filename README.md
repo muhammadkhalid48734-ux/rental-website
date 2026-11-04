@@ -17,7 +17,7 @@ The site builds and runs with every placeholder still in place.
 
 ## All business details live in `src/config.js`
 
-Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everything on the page that shows a price, plan feature, add-on, first-year cost, support hour or contact detail renders from this file, so the page cannot contradict itself.
+Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everything on the page that shows a price, plan feature, feature status, minimum term, support hour or contact detail renders from this file, so the page cannot contradict itself.
 
 | Area | Fields |
 | --- | --- |
@@ -25,14 +25,18 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | Site | `siteUrl` (full `https://` URL, used for canonical, OG tags, sitemap) |
 | Contact | `email`, `whatsapp` (digits with country code), `calendarUrl` (optional), `formEndpoint`, `formProvider` |
 | Hours | `timezone`, `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime`, `demoTurnaround` |
-| Money | `packages`, `compare`, `addons`, `domainEstimatePerYear`, `paymentMethod`, `smsAvailable` |
+| Offer | `packages` (name, monthly price, founding price, edit minutes), `features`, `minimumMonths`, `setupDays`, `pendingHoldHours`, `foundingOffer`, `foundingMonths`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
 | Other | `testimonials`, `analytics`, `indexSampleSites`, `legalLastUpdated` |
 
 Notes:
 
-- **Prices.** Change a number in `packages` or `addons` and the plan cards, compare table, add-ons list, first-year cost lines, FAQ and Terms page all update.
-- **Text reminders.** While `smsAvailable` is `false`, every mention (plan card, compare table, add-ons, FAQ, Terms) shows "Coming soon". Prices and first-year costs still compute.
+- **The offer.** The website build is free and customers pay a monthly plan (Get Found, Get Booked, Get Paid) with a minimum term. Change a number in `packages`, `features` or `minimumMonths` and the plan cards, compare table, hero line, FAQ, Terms page, meta description and OG image all update. The terms sentence is built in `src/lib/terms.js` and reused everywhere.
+- **Feature status.** Every entry in `features` has `status: "ready"` (part of the plan from the start) or `"after-signup"`. After-signup features get a clock icon, and the page says "Set up within `setupDays` working days after you sign up". Nothing is ever shown as already running. Everything involving automation, the calendar, deposits and reviews defaults to `"after-signup"`.
+- **Plan inheritance.** A feature's `plan` is the index of the first plan that includes it. Get Booked automatically includes everything in Get Found, and Get Paid everything in Get Booked.
+- **Founding offer.** `foundingOffer: false` by default. Set it to `true` to show each plan's `foundingMonthly` price for `foundingMonths` months, then the regular price. The hero line, plan cards, compare table, Terms page and meta description all say so.
+- **Add-ons.** `addons` is empty because you pay only the monthly plan. If you add entries, an Add-ons list returns, but the "pay only the monthly plan" wording would then no longer be true.
+- **Text reminders.** While `smsAvailable` is `false`, every mention (plan card, compare table, FAQ, Terms) shows "Coming soon". Prices still compute.
 - **Testimonials.** The section renders nothing until `testimonials` has entries with `permission: true`.
 - **Support hours.** Once `start` and `end` are real `HH:MM` values, US Eastern, Central, Mountain and Pacific times are shown. They are recalculated in the visitor's browser for today's date (daylight saving included), with a build-time fallback if JavaScript is off.
 - **Analytics.** Off by default. Set `analytics.enabled: true`, plus `domain` (and `scriptSrc` if you don't use Plausible), for a cookie-free script. The Privacy page text changes to match.
@@ -77,5 +81,5 @@ Self-hosted fonts (Bricolage Grotesque, Figtree, DM Mono for prices) with `font-
 1. Replace every `TODO` in `src/config.js`.
 2. Run a trademark and web search on the three sample names.
 3. Have the Privacy and Terms drafts reviewed.
-4. Confirm that every promise on the page is one you can keep (turnaround, uptime checks, 24-hour edits, how dates get marked as booked).
+4. Confirm that every promise on the page is one you can keep (turnaround, set-up time, what the 3-month minimum means if someone leaves early, how a booking gets confirmed).
 5. Submit the form once on the live site to confirm it reaches your inbox.

@@ -1,16 +1,18 @@
 ---
+// Renders only if config.addons has entries. The new offer has none: you pay only the monthly plan.
 import { config } from "../config.js";
 import { money } from "../lib/pricing.js";
 ---
-<div class="addons" id="addons">
-  <h3>Add-ons</h3>
-  <ul class="addons__list">
-    {config.addons.map((a) => (
-      <li>
-        <span class="addons__name">{a.name}{a.sms && !config.smsAvailable && <> <span class="tag tag--soon">Coming soon</span></>}</span>
-        <span class="addons__price"><span class="mono">{money(a.price)}</span>{a.per && <span class="addons__unit"> per {a.per}</span>}{a.extra && <span class="addons__unit"> {a.extra}</span>}</span>
-      </li>
-    ))}
-  </ul>
-  <p class="addons__note">{config.addonCreditNote}</p>
-</div>
+{config.addons.length > 0 && (
+  <div class="addons" id="addons">
+    <h3>Add-ons</h3>
+    <ul class="addons__list">
+      {config.addons.map((a) => (
+        <li>
+          <span class="addons__name">{a.name}{a.sms && !config.smsAvailable && <> <span class="tag tag--soon">Coming soon</span></>}</span>
+          <span class="addons__price"><span class="mono">{money(a.price)}</span>{a.per && <span class="addons__unit"> per {a.per}</span>}{a.extra && <span class="addons__unit"> {a.extra}</span>}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}

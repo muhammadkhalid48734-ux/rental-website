@@ -1,6 +1,7 @@
 // FAQ content. Every number, price, policy and contact detail comes from config, so the page can't contradict itself.
 import { config } from "../config.js";
-import { money, byId } from "./pricing.js";
+import { money, minutesText } from "./pricing.js";
+import { termsOwn, noDemo } from "./terms.js";
 import { emailHref, waHref } from "./contact.js";
 import { parseHHMM, format12, tzLongName } from "./hours.js";
 
@@ -15,29 +16,41 @@ export function hoursSentence() {
   return "TODO: supportHours";
 }
 
-const minutesText = (m) => (m % 60 === 0 ? `${m / 60} ${m === 60 ? "hour" : "hours"}` : `${m} minutes`);
-
 export function buildFaq() {
-  const [website, books, full] = config.packages;
-  const extraEdits = config.addons.find((a) => a.name === "Extra edits");
+  const [found, booked, paid] = config.packages;
   const p = config.policies;
+  const n = config.minimumMonths;
+  const hold = config.pendingHoldHours;
+  const setup = `set up within ${config.setupDays} working days after you sign up`;
 
   const smsAnswer = config.smsAvailable
-    ? "Yes, when it is set up the right way. Customers tick a box to agree to texts when they book, every text lets them reply STOP to opt out, and we only text about their booking. Provider costs may apply. This is not legal advice, so check the rules for your state."
-    : "Text reminders are coming soon. When they launch, they will only go to customers who agree to get texts when they book. Until then, reminders go by email.";
+    ? `Yes, when it is set up the right way. Customers tick a box to agree to texts when they book, every text lets them reply STOP to opt out, and we only text about their booking. Text reminders come with ${paid.name}, and provider costs may apply. This is not legal advice, so check the rules for your state.`
+    : `Text reminders are coming soon. They come with ${paid.name}, and when they launch they will only go to customers who agree to get texts when they book. Until then, reminders go by email.`;
 
   return [
     {
       q: "Why not Wix, Square or just Facebook?",
-      a: "Those are good tools, and if you like building your own site, one of them may cost less. We build yours for you from your page, with your items, prices and booking steps already in place. A Facebook page on its own is not made to show open dates or send reminders."
+      a: "Those are good tools, and if you like building and running your own site, one of them may cost less. We build yours for you from your page and set up the inquiry form, reminders and follow-ups, so you do not spend your weekends learning a builder. A Facebook page on its own is not made to show open dates or follow up with customers."
+    },
+    {
+      q: "Why a monthly fee?",
+      a: `The website build is free, so the monthly plan is how we are paid. It covers hosting, keeping your inquiry form, reminders, calendar and follow-ups working, and the edits included in your plan.`
+    },
+    {
+      q: `What does the ${n}-month minimum mean?`,
+      a: `You pay the monthly plan for at least ${n} months. After that you can cancel anytime. If you leave before the ${n} months are up, the months left in the minimum are still due.`
+    },
+    {
+      q: "Is it really free?",
+      a: `The demo is free and private, and so is the website build. You pay only the monthly plan if you want your site live, with a ${n}-month minimum. ${noDemo()}`
     },
     {
       q: "Do I own the site and domain?",
-      a: `Yes. Your website, domain and photos are always yours. On the ${website.name} plan, the site sits in your own hosting account. On a monthly plan we host it, and if you stop you can have your files or a move to your own account.`
+      a: `${termsOwn()} The calendar, reminders and edits are part of the monthly plan, so they stop when you leave.`
     },
     {
-      q: "What happens if I stop paying the monthly fee?",
-      a: `${p.stopPaying} The ${website.name} plan has no monthly fee.`
+      q: "What if I want to leave?",
+      a: `After the ${n}-month minimum you can cancel anytime. Email us at ${email()} and tell us. ${p.stopPaying}`
     },
     {
       q: "I already have a website and domain. What happens to them?",
@@ -45,27 +58,43 @@ export function buildFaq() {
     },
     {
       q: "Will it work with how I take bookings now?",
-      a: "Whether you take bookings by text, DMs, phone calls or a notebook, requests from the site arrive in your email, and you can keep confirming them the way you do now. If you use another booking tool, tell us in the form and we will say honestly whether it fits."
+      a: "Whether you take bookings by text, DMs, phone calls or a notebook, inquiries from the site reach you as an instant alert, and you can keep confirming bookings the way you do now. If you use another booking tool, tell us in the form and we will say honestly whether it fits."
     },
     {
-      q: "Does it stop double bookings?",
-      a: "On the plans with a calendar, a date marked as booked is blocked on your site, so nobody can ask for it. The site can't know about a booking you took by phone or text until that date is marked, so close it when you take one."
+      q: "How does double-booking protection work?",
+      a: `A date is blocked when you confirm a booking or when the deposit arrives. Pending requests show as pending and do not block the date, unless you set a ${hold}-hour hold, which blocks it for ${hold} hours. It comes with ${booked.name} and ${paid.name}, and it is ${setup}.`
     },
     {
       q: "How do I mark a date as booked?",
       a: p.markBooked
     },
     {
+      q: "How does deposit tracking work?",
+      a: `On ${booked.name}, we track which bookings have a deposit and which do not, and customers with an unpaid deposit get reminders. You collect the deposit the way you do now and mark it paid, the same way you confirm a booking. On ${paid.name}, customers pay the deposit online through your own Square or Stripe account, and it is marked paid when the payment arrives.`
+    },
+    {
+      q: "Who processes payments?",
+      a: `Your own Square or Stripe account, never us. Your customers' deposits go straight into your account, and we never receive or hold your customers' money. Online deposits come with ${paid.name}.`
+    },
+    {
+      q: "How do reviews work?",
+      a: "After each event we ask every customer for a review and give everyone the Google link. We never filter or block low ratings, and we never pay for reviews. Review requests come with every plan."
+    },
+    {
       q: "Can I change prices and photos myself?",
-      a: `You send us the change and we make it. ${books.name} includes ${minutesText(books.editsPerMonth)} of edits per month, ${full.name} includes ${minutesText(full.editsPerMonth)} with 24-hour turnaround, and on the ${website.name} plan changes are billed per task. Extra edits are ${money(extraEdits.price)} per ${extraEdits.per}.`
+      a: `You send us the change and we make it. ${found.name} includes ${minutesText(found.editMinutes)} of edits per month, ${booked.name} includes ${minutesText(booked.editMinutes)}, and ${paid.name} includes ${minutesText(paid.editMinutes)}.`
     },
     {
       q: "What if something breaks, and who answers?",
-      a: `Message us by ${email()} or ${whatsapp()}. A person on our small team answers during support hours (${hoursSentence()}), and we reply ${config.replyTime}. The monthly plans include uptime checks.`
+      a: `Message us by ${email()} or ${whatsapp()}. A person on our small team answers during support hours (${hoursSentence()}), and we reply ${config.replyTime}.`
     },
     {
       q: "How fast will I have the demo?",
       a: `Your demo is ready ${config.demoTurnaround}, after you send your page. We message you when it is ready, or sooner if we have a question.`
+    },
+    {
+      q: "When is everything set up?",
+      a: `After you sign up, we set up the features in your plan within ${config.setupDays} working days. Until then, the demo only shows how they will look. Nothing on this page is running for you today.`
     },
     {
       q: "What do you do with my photos?",
@@ -84,12 +113,8 @@ export function buildFaq() {
       a: `${p.outreachDisclosure} You can also email ${email()} and we will stop.`
     },
     {
-      q: "Is it really free?",
-      a: "The demo is free and private. You pay only if you want your site live, and if you don't like the demo, you pay nothing. There is no contract."
-    },
-    {
       q: "What about my slow winter months?",
-      a: `The ${website.name} plan has no monthly fee. The monthly plans have no contract, so you can cancel anytime. If you stop, the calendar, reminders and edits stop, and your domain and photos stay yours.`
+      a: `Plans are monthly. After the ${n}-month minimum you can cancel anytime, but then the calendar, reminders and edits stop, and we send you your site files. ${found.name} is the lowest-cost plan, at ${money(found.monthly)} a month.`
     },
     {
       q: "Are you in the US, and how do we talk?",

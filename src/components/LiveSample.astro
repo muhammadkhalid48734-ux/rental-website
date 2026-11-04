@@ -1,17 +1,70 @@
 ---
+import { config } from "../config.js";
 import BookingSample from "./BookingSample.astro";
+import SetupNote from "./SetupNote.astro";
 const items = [
   { name: "Classic Castle", price: 149 },
   { name: "Slide Combo", price: 199 },
   { name: "Obstacle Run", price: 229 }
 ];
 const biz = "Brightwick Bounce";
+const names = config.packages.map((p) => p.name);
+const who = (plan) => (plan === 0 ? "All plans" : names.slice(plan).join(" and "));
+
+// The customer's journey, in order. `plan` = first plan that includes the message.
+const messages = [
+  {
+    when: "Right after they send a request",
+    plan: 0,
+    kind: "Email · instant auto-reply",
+    subject: ["We got your request for ", "date"],
+    body: ["Hi Sam, thanks for asking about the ", "item", " on ", "date", ". This date is not confirmed yet. We will reply by email as soon as we can."]
+  },
+  {
+    when: "1 day later, if they have not booked",
+    plan: 1,
+    kind: "Email · follow-up (also after 3 and 7 days)",
+    subject: ["Still want ", "date", "?"],
+    body: ["Hi Sam, you asked about the ", "item", " for ", "date", ". Reply to this email and we will confirm it for you."]
+  },
+  {
+    when: "When the owner confirms the booking",
+    plan: 1,
+    kind: "Email · booking confirmation",
+    subject: ["Your party is booked: ", "date"],
+    body: ["Hi Sam, thanks for booking with ", "biz", ". Your ", "item", " is booked for ", "date", ". Need to change anything? Just reply to this email."]
+  },
+  {
+    when: "If the deposit is still unpaid",
+    plan: 1,
+    kind: "Email · deposit reminder",
+    subject: ["Your deposit is still due for ", "date"],
+    body: ["Hi Sam, we have not received the deposit for your ", "item", " on ", "date", " yet. Please send it soon, or reply if you need help."]
+  },
+  {
+    when: "The day before the party",
+    plan: 1,
+    kind: "Email · reminder before the event",
+    subject: ["Tomorrow: your ", "item", " is coming"],
+    body: ["Hi Sam, a quick reminder that your party is tomorrow, ", "date", ". Please clear the space and keep a power outlet within reach. See you soon."]
+  },
+  {
+    when: "After the party",
+    plan: 0,
+    kind: "Email · review request, sent to every customer",
+    subject: ["How did the party go?"],
+    body: ["Hi Sam, thanks for choosing ", "biz", ". If you have a minute, a short Google review helps other families find us."],
+    button: "Leave a review"
+  }
+];
+const part = (x) =>
+  x === "date" ? { date: true } : x === "item" ? { item: true } : x === "biz" ? { biz: true } : { text: x };
 ---
 <section class="section" id="see" aria-labelledby="see-title">
   <div class="wrap" data-booking-scope>
     <div class="section__head">
       <h2 id="see-title">See what your customers see</h2>
-      <p>Tap a date, pick an item, send a request. Then see the three messages your customer gets, without you typing any of them.</p>
+      <p>Tap a date, pick an item, send a request. Then see the messages your customer gets along the way, without you typing any of them.</p>
     </div>
     <div class="live">
       <BookingSample id="live" items={items} seed={1} businessName={biz} />
@@ -20,23 +73,22 @@ const biz = "Brightwick Bounce";
           <h3>What your customer receives</h3>
           <span class="tag tag--sample">Sample</span>
         </div>
-        <article class="msg" aria-labelledby="m1">
-          <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">Email · right after you confirm the booking</p></div></header>
-          <h4 id="m1" class="msg__subject">Your party is booked: <span data-msg-date>your date</span></h4>
-          <p>Hi Sam, thanks for booking with {biz}. Your <span data-msg-item>your item</span> is reserved for <span data-msg-date>your date</span>. Need to change anything? Just reply to this email.</p>
-        </article>
-        <article class="msg" aria-labelledby="m2">
-          <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">Email · the day before the party</p></div></header>
-          <h4 id="m2" class="msg__subject">Tomorrow: your <span data-msg-item>your item</span> is coming</h4>
-          <p>Hi Sam, a quick reminder that your party is tomorrow, <span data-msg-date>your date</span>. Please clear the space and keep a power outlet within reach. See you soon.</p>
-        </article>
-        <article class="msg" aria-labelledby="m3">
-          <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">Email · after the party</p></div></header>
-          <h4 id="m3" class="msg__subject">How did the party go?</h4>
-          <p>Hi Sam, thanks for choosing {biz}. If it went well, a short Google review helps other families find us.</p>
-          <p class="msg__btn" aria-hidden="true">Leave a review</p>
-        </article>
-        <p class="msgs__note">Sample messages from a made-up business. Yours use your name, your items and your wording.</p>
+        {messages.map((m, i) => (
+          <article class="msg" aria-labelledby={`m${i}`}>
+            <p class="msg__when"><span>{m.when}</span><span class="msg__plan">{who(m.plan)}</span></p>
+            <header class="msg__meta"><span class="msg__av" aria-hidden="true">B</span><div><p class="msg__from">{biz}</p><p class="msg__kind">{m.kind}</p></div></header>
+            <h4 id={`m${i}`} class="msg__subject">{m.subject.map((x) => {
+              const t = part(x);
+              return t.date ? <span data-msg-date>your date</span> : t.item ? <span data-msg-item>your item</span> : t.text;
+            })}</h4>
+            <p>{m.body.map((x) => {
+              const t = part(x);
+              return t.date ? <span data-msg-date>your date</span> : t.item ? <span data-msg-item>your item</span> : t.biz ? biz : t.text;
+            })}</p>
+            {m.button && <p class="msg__btn" aria-hidden="true">{m.button}</p>}
+          </article>
+        ))}
+        <p class="msgs__note">Sample messages from a made-up business. Yours use your name, your items and your wording. <SetupNote /></p>
       </div>
     </div>
   </div>
