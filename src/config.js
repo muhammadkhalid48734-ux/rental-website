@@ -27,7 +27,7 @@ export const config = {
   // ---- Where the site lives ----------------------------------------------
   // Full URL with https://, no trailing slash. Needed for canonical links,
   // OG tags and the sitemap. Until you set it, the build uses a stand-in.
-  siteUrl: "TODO: siteUrl", // e.g. https://your-domain.com
+  siteUrl: "https://hopbook.vercel.app", // update if your Vercel URL or custom domain is different
 
   // ---- How people reach you ----------------------------------------------
   // The only contact methods shown on the page are email and Instagram/Facebook messages.
@@ -36,7 +36,7 @@ export const config = {
   // To turn it on, set country code + digits only, e.g. "15551234567".
   whatsapp: "",
   // Contact form endpoint (Formspree, Getform, Basin...). Must accept a JSON POST.
-  formEndpoint: "TODO: formEndpoint", // e.g. https://formspree.io/f/xxxxxxxx
+  formEndpoint: "https://formspree.io/f/mrpprvln",
   formProvider: "Formspree", // shown on the privacy page
 
   // ---- Hours --------------------------------------------------------------
