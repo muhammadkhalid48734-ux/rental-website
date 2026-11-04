@@ -1,27 +1,50 @@
 ---
 import { config } from "../config.js";
-import { fromLine } from "../lib/pricing.js";
+import { fromLine, money } from "../lib/pricing.js";
 import { termsFree, noDemo } from "../lib/terms.js";
-import { heroHeadline } from "../lib/copy.js";
+import { heroHeadline, heroHighlight } from "../lib/copy.js";
 import PaintPour from "./PaintPour.astro";
 import PhoneFrame from "./PhoneFrame.astro";
 import MiniSite from "./MiniSite.astro";
+
+const [before, after] = heroHeadline.split(heroHighlight);
+const prices = config.packages.map((p) => p.monthly);
+const low = Math.min(...prices);
+const high = Math.max(...prices);
+// Four facts a skeptical owner wants in five seconds. Every number comes from config.
+const glance = [
+  { fig: "$0", label: "Website build", note: "You pay only the monthly plan." },
+  { fig: `${money(low)}\u2013${money(high)}`, label: "Per month", note: `${config.packages.length} plans. Pick what you need.` },
+  { fig: `${config.minimumMonths} months`, label: "Minimum", note: "Then cancel anytime." },
+  { fig: "$0", label: "If you don't like the demo", note: "You pay nothing." }
+];
 ---
 <section class="hero" aria-labelledby="hero-title">
-  <div class="wrap hero__grid">
-    <div class="hero__copy">
-      <h1 id="hero-title">{heroHeadline}</h1>
-      <p class="hero__lead">{fromLine()}</p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>
-        <a class="link-strong" href="#samples">See sample sites</a>
+  <div class="wrap">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <h1 id="hero-title">{before}<span class="hl">{heroHighlight}</span>{after}</h1>
+        <p class="hero__lead">{fromLine()}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>
+          <a class="link-strong" href="#samples">See sample sites</a>
+        </div>
+        <p class="hero__fine"><strong>Free private demo. {termsFree()}</strong></p>
+        <p class="hero__fine hero__fine--2">{noDemo()} Your demo is ready {config.demoTurnaround}, after you send your page.</p>
       </div>
-      <p class="hero__fine"><strong>Free private demo. {termsFree()}</strong></p>
-      <p class="hero__fine hero__fine--2">{noDemo()} Your demo is ready {config.demoTurnaround}, after you send your page.</p>
+      <div class="hero__visual">
+        <PaintPour />
+        <PhoneFrame class="hero__phone"><MiniSite /></PhoneFrame>
+      </div>
     </div>
-    <div class="hero__visual">
-      <PaintPour />
-      <PhoneFrame class="hero__phone"><MiniSite /></PhoneFrame>
-    </div>
+    <ul class="glance" aria-label="The offer at a glance">
+      {glance.map((g) => (
+        <li>
+          <span class="glance__fig mono">{g.fig}</span>
+          <span class="glance__label">{g.label}</span>
+          <span class="glance__note">{g.note}</span>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>

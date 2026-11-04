@@ -14,6 +14,14 @@ const { cta = true, home = "/" } = Astro.props;
       </svg>
       <span><Val v={config.studioName} /></span>
     </a>
+    {cta && (
+      <nav class="site-header__nav" aria-label="Sections">
+        <a href="/#how">How it works</a>
+        <a href="/#samples">Samples</a>
+        <a href="/#packages">Plans</a>
+        <a href="/#faq">Questions</a>
+      </nav>
+    )}
     {cta && <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>}
   </div>
 </header>

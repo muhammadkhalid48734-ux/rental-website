@@ -12,9 +12,17 @@ import { emailOk, waOk } from "../lib/contact.js";
       <p><ContactLink kind="email" class="footer__link" /></p>
       {waOk() && <p><ContactLink kind="whatsapp" class="footer__link" label="Message on WhatsApp" /></p>}
     </div>
+    <nav class="footer__nav" aria-label="Footer">
+      <a href="/#how">How it works</a>
+      <a href="/#samples">Samples</a>
+      <a href="/#packages">Plans</a>
+      <a href="/#faq">Questions</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </nav>
     <div>
-      <p class="footer__small"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></p>
-      <p class="footer__small">Your free demo stays private and is never published without your OK.</p>
+      <a class="btn btn--sun" href="/#demo" data-scroll-form>Get my free demo</a>
+      <p class="footer__small footer__legal">Your free demo stays private and is never published without your OK.</p>
       <p class="footer__small">
         Don’t want messages from us? Email {emailOk() ? <ContactLink kind="email" class="footer__link" /> : <Val v={config.email} />} and we’ll stop.
       </p>
