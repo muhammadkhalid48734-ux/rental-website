@@ -40,7 +40,7 @@ export const config = {
   formProvider: "Formspree", // shown on the privacy page
 
   // ---- Hours --------------------------------------------------------------
-  // IANA time zone the hours below are in. Used ONLY to calculate the US times; it is never shown
+  // IANA time zone the hours below are in. Used ONLY to calculate the times shown; it is never shown
   // on the page or put in the HTML.
   timezone: "Asia/Karachi",
   supportHours: {
@@ -52,7 +52,7 @@ export const config = {
   replyTime: "within a few hours during support hours",
   // Used word for word in the hero, "How it works", the FAQ and the form success message.
   demoTurnaround:
-    "usually within the hour during our support hours, otherwise by the next morning (US time)",
+    "usually within the hour during our support hours, otherwise by the next morning",
 
   // ---- Offer: free website build, monthly plans ---------------------------
   currency: "$",

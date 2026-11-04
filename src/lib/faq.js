@@ -80,7 +80,7 @@ export function buildFaq() {
     },
     {
       q: "What if something breaks, and who answers?",
-      a: `Message us by ${reachUs()}. A person on our small team answers during support hours (shown above in US time zones), and we reply ${config.replyTime}.`
+      a: `Message us by ${reachUs()}. A person on our small team answers during support hours (shown above), and we reply ${config.replyTime}.`
     },
     {
       q: "How fast will I have the demo?",

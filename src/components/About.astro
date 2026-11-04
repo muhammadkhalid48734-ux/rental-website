@@ -10,7 +10,7 @@ const zones = convertHours(config.timezone, start, end);
 // A plain number goes to the browser, so the studio's zone name never appears in the page.
 const offset = studioOffset(config.timezone);
 ---
-<section class="section" id="about" aria-labelledby="about-title">
+<section class="section section--soft" id="about" aria-labelledby="about-title">
   <div class="wrap about">
     <div class="about__photo">
       {config.ownerPhoto ? (
@@ -22,34 +22,33 @@ const offset = studioOffset(config.timezone);
         </div>
       )}
     </div>
-    <div class="about__body">
+    <div class="about__text">
       <h2 id="about-title">Who you are dealing with</h2>
       <p class="about__lead"><strong>A small remote studio.</strong> We work online.</p>
       <p class="about__name"><strong><Val v={config.ownerName} /></strong>, <Val v={config.ownerRole} /></p>
       <p><Val v={config.ownerBio} /></p>
 
-      <div class="hours" data-hours data-offset={offset} data-start={start} data-end={end}>
-        <h3>Support hours</h3>
-        <p class="hours__studio">{parseHHMM(start) && parseHHMM(end) ? `${config.supportHours.daysLabel}, in US time:` : <Val v="TODO: supportHours" />}</p>
-        {zones ? (
-          <>
-            <ul class="hours__list" data-hours-list>
-              {zones.map((z) => (
-                <li><span>{z.label}</span><span class="mono">{z.range} {z.abbr}</span></li>
-              ))}
-            </ul>
-            <p class="hours__fine" data-hours-fine>US times shown for the day this page was built. Daylight saving can move them by an hour.</p>
-          </>
-        ) : (
-          <p class="hours__fine">US times appear here once support hours are filled in.</p>
-        )}
-        <p class="hours__reply"><strong>Reply time:</strong> <Val v={config.replyTime} />. <strong>Demos:</strong> ready {config.demoTurnaround}.</p>
-      </div>
-
       <p class="about__links">
         <ContactLink kind="email" class="btn btn--ghost" label="Email us" />
         {waOk() && <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />}
       </p>
+    </div>
+    <div class="hours" data-hours data-offset={offset} data-start={start} data-end={end}>
+      <h3>Support hours</h3>
+      <p class="hours__studio">{parseHHMM(start) && parseHHMM(end) ? config.supportHours.daysLabel : <Val v="TODO: supportHours" />}</p>
+      {zones ? (
+        <>
+          <ul class="hours__list" data-hours-list>
+            {zones.map((z) => (
+              <li><span>{z.label}</span><span class="mono">{z.range} {z.abbr}</span></li>
+            ))}
+          </ul>
+          <p class="hours__fine" data-hours-fine>Times shown for the day this page was built. Daylight saving can move them by an hour.</p>
+        </>
+      ) : (
+        <p class="hours__fine">Times appear here once support hours are filled in.</p>
+      )}
+      <p class="hours__reply"><strong>Reply time:</strong> <Val v={config.replyTime} />. <strong>Demos:</strong> ready {config.demoTurnaround}.</p>
     </div>
   </div>
 </section>

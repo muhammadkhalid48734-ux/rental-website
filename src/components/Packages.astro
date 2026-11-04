@@ -7,7 +7,7 @@ import Legend from "./Legend.astro";
 import CompareTable from "./CompareTable.astro";
 import Addons from "./Addons.astro";
 ---
-<section class="section" id="packages" aria-labelledby="packages-title">
+<section class="section section--soft" id="packages" aria-labelledby="packages-title">
   <div class="wrap">
     <div class="section__head">
       <h2 id="packages-title">Pick what you need</h2>
@@ -56,7 +56,7 @@ import Addons from "./Addons.astro";
             {newFeatures(i).some((f) => f.sms) && !config.smsAvailable && (
               <p class="plan__note">Text reminders are coming soon. Until then, reminders go by email.</p>
             )}
-            <a class:list={["btn", "btn--block", p.recommended ? "btn--primary" : "btn--ghost"]} href="#demo" data-scroll-form>Get my free demo</a>
+            <a class:list={["btn", "btn--block", p.recommended ? "btn--sun" : "btn--ghost"]} href="#demo" data-scroll-form>Get my free demo</a>
           </li>
         );
       })}
