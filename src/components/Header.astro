@@ -2,8 +2,17 @@
 import { config } from "../config.js";
 import Val from "./Val.astro";
 const { cta = true, home = "/" } = Astro.props;
+// Same links in the desktop bar and the phone menu. Section ids match the page.
+const links = [
+  { label: "Home", href: "/" },
+  { label: "How it works", href: "/#how" },
+  { label: "Samples", href: "/#samples" },
+  { label: "Pricing", href: "/#packages" },
+  { label: "About", href: "/#about" },
+  { label: "FAQ", href: "/#faq" }
+];
 ---
-<header class="site-header">
+<header class="site-header" data-header>
   <div class="wrap site-header__row">
     <a class="brand" href={home} aria-label={`${config.studioName} home`}>
       <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -14,14 +23,66 @@ const { cta = true, home = "/" } = Astro.props;
       </svg>
       <span><Val v={config.studioName} /></span>
     </a>
-    {cta && (
-      <nav class="site-header__nav" aria-label="Sections">
-        <a href="/#how">How it works</a>
-        <a href="/#samples">Samples</a>
-        <a href="/#packages">Plans</a>
-        <a href="/#faq">Questions</a>
-      </nav>
-    )}
-    {cta && <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>}
+
+    <nav class="site-header__nav" aria-label="Sections">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+
+    {cta && <a class="btn btn--primary site-header__cta" href="#demo" data-scroll-form>Get my free demo</a>}
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
+      <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" focusable="false"><path d="M1 1.5h18M1 7h18M1 12.5h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+      <span data-menu-label>Menu</span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="wrap" aria-label="Sections, mobile">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+      {cta && <a class="btn btn--primary btn--block" href="#demo" data-scroll-form>Get my free demo</a>}
+    </nav>
   </div>
 </header>
+<script>
+  const header = document.querySelector("[data-header]");
+  if (header) {
+    const btn = header.querySelector(".menu-btn");
+    const menu = header.querySelector("#mobile-menu");
+    const label = header.querySelector("[data-menu-label]");
+    const setOpen = (open) => {
+      btn.setAttribute("aria-expanded", String(open));
+      menu.hidden = !open;
+      label.textContent = open ? "Close" : "Menu";
+    };
+    btn.addEventListener("click", () => setOpen(menu.hidden));
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.hidden) { setOpen(false); btn.focus(); }
+    });
+    document.addEventListener("click", (e) => { if (!menu.hidden && !e.target.closest("[data-header]")) setOpen(false); });
+    window.matchMedia("(min-width: 900px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
+
+    // Mark the link for the section on screen (home page only).
+    const anchors = [...header.querySelectorAll("a[href^='/#']")];
+    const byId = (id) => anchors.filter((a) => a.getAttribute("href") === `/#${id}`);
+    const home = [...header.querySelectorAll("a[href='/']")].filter((a) => !a.classList.contains("brand"));
+    const ids = ["how", "samples", "packages", "about", "faq"];
+    const targets = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (targets.length && "IntersectionObserver" in window) {
+      const mark = (id) => {
+        [...anchors, ...home].forEach((a) => a.removeAttribute("aria-current"));
+        (id ? byId(id) : home).forEach((a) => a.setAttribute("aria-current", "true"));
+      };
+      mark(null);
+      const seen = new Map();
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => seen.set(en.target.id, en.isIntersecting));
+        const current = ids.find((id) => seen.get(id));
+        mark(current || null);
+      }, { rootMargin: "-35% 0px -55% 0px" });
+      targets.forEach((t) => io.observe(t));
+    }
+  }
+</script>

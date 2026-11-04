@@ -45,7 +45,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-padding-top: 16px; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 76px; }
 @media (min-width: 900px) { html { scroll-padding-top: 88px; } }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
@@ -124,8 +124,6 @@ strong { font-weight: 700; }
 .site-header__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 800 1.1rem/1.1 var(--font-head); letter-spacing: -0.02em; min-height: var(--tap); }
 .brand svg { flex: none; }
-.site-header .btn { display: none; min-height: var(--tap); padding-block: 8px; }
-@media (min-width: 700px) { .site-header .btn { display: inline-flex; } }
 
 /* Dev banner (form endpoint) */
 .dev-banner { background: #fff0b3; border: 2px dashed #b37b00; color: #3d2a00; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 0.95rem; margin-bottom: 18px; }
