@@ -25,7 +25,7 @@ export async function GET() {
       Array.from({ length: 12 }, (_, i) => h("div", { width: 44, height: 36, borderRadius: 8, background: i === 9 ? "#ffc83d" : i % 5 === 1 ? "#dfe4ef" : "#f2f5fb" }, ""))),
     // copy
     h("div", { position: "absolute", left: 64, top: 64, width: 700, flexDirection: "column" }, [
-      h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 28, color: "#12236b", marginBottom: 28 }, "Booking websites for bounce house and party rental businesses"),
+      h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 28, color: "#12236b", marginBottom: 28 }, "Booking websites for bounce house, party rental and event decor businesses"),
       h("div", { fontFamily: "Bricolage Grotesque", fontWeight: 800, fontSize: 76, lineHeight: 1.02, letterSpacing: -2, color: "#0f1a33" }, heroHeadline),
     ]),
     h("div", { position: "absolute", left: 64, bottom: 56, width: 700, flexDirection: "column" }, [

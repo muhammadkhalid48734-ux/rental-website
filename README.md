@@ -1,4 +1,4 @@
-# Booking websites for bounce house rentals: marketing site
+# Booking websites for bounce house, party rental and event decor businesses: marketing site
 
 A one-page, mobile-first marketing site for a small remote web design studio. Built with [Astro](https://astro.build) (static output, no UI framework, a few small vanilla scripts). Deploys to Vercel, Netlify or Cloudflare Pages.
 

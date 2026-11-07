@@ -22,7 +22,7 @@ export const config = {
   ownerPhoto: "/haseeb.webp", // optional. Path under /public. Empty = placeholder box. Source file is 150x150, so it is shown at 150px; use a 400x400 or larger photo for a sharper result.
   // One honest sentence about you, in your own words. Shown in "Who you're dealing with".
   ownerBio:
-    "I'm Haseeb, and I run Hopbook, a small studio that builds simple booking websites for bounce house and party rental businesses. You can reach me by email or by message on Instagram or Facebook.",
+    "I'm Haseeb, and I run Hopbook, a small studio that builds simple booking websites for bounce house, party rental and event decor businesses. You can reach me by email or by message on Instagram or Facebook.",
 
   // ---- Where the site lives ----------------------------------------------
   // Full URL with https://, no trailing slash. Needed for canonical links,
@@ -80,7 +80,7 @@ export const config = {
     {
       id: "booked",
       name: "Get Booked",
-      tagline: "Shows open dates, protects against double bookings and follows up for you.",
+      tagline: "Shows open dates, keeps one date from being booked twice and follows up for you.",
       monthly: 99,
       recommended: true,
       editMinutes: 30
@@ -110,15 +110,15 @@ export const config = {
     { text: "Auto-reply to every inquiry", plan: 0, status: "after-signup" },
     { text: "Review request after each event. Every customer gets your Google link", plan: 0, status: "after-signup" },
 
-    { text: "Availability calendar for each item", plan: 1, status: "after-signup" },
-    { text: "Double-booking protection", plan: 1, status: "after-signup" },
+    { text: "Availability calendar for each item or service", plan: 1, status: "after-signup" },
+    { text: "Date protection so one date isn't booked twice", plan: 1, status: "after-signup" },
     { text: "Deposit tracking, with reminders for unpaid deposits", plan: 1, status: "after-signup" },
     { text: "Follow-up for unbooked inquiries (after 1, 3 and 7 days)", plan: 1, status: "after-signup" },
     { text: "Booking confirmation and a reminder before the event", plan: 1, status: "after-signup" },
     { text: "Short monthly report", plan: 1, status: "after-signup" },
 
     { text: "Online deposits through your own Square or Stripe account", plan: 2, status: "after-signup" },
-    { text: "Rental waiver e-sign", plan: 2, status: "after-signup" },
+    { text: "Waiver e-sign for rentals or services", plan: 2, status: "after-signup" },
     { text: "Text reminders (customer opt-in required; provider costs may apply)", plan: 2, status: "after-signup", sms: true },
     { text: "Rebooking reminder a year later", plan: 2, status: "after-signup" },
     { text: "Google Business Profile setup", plan: 2, status: "after-signup" }

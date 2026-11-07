@@ -9,6 +9,6 @@ export function professionalService(siteUrl) {
   if (!isTodo(config.email)) o.email = config.email;
   if (!isTodo(config.whatsapp)) o.telephone = `+${String(config.whatsapp).replace(/\D/g, "")}`;
   o.description =
-    "A small remote web design studio that builds booking websites for bounce house and party rental businesses in the US.";
+    "A small remote web design studio that builds booking websites for bounce house, party rental and event decor businesses in the US.";
   return o;
 }

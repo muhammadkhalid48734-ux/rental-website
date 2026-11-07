@@ -18,10 +18,10 @@ import { config } from "../config.js";
 import { isTodo, cheapest, money } from "../lib/pricing.js";
 import { professionalService } from "../lib/jsonld.js";
 
-const base = "Booking websites for bounce house and party rental businesses";
+const base = "Booking websites for bounce house, party rental and event decor businesses";
 const title = isTodo(config.studioName) ? base : `${base} | ${config.studioName}`;
 const from = `from ${money(cheapest().monthly)}`;
-const description = `Booking websites for bounce house and party rental owners. Free website build, monthly plans ${from}. Get a free private demo.`;
+const description = `Booking websites for bounce house, party rental and event decor owners. Free website build, monthly plans ${from}. Get a free private demo.`;
 const site = Astro.site.toString().replace(/\/$/, "");
 ---
 <Base title={title} description={description} jsonld={professionalService(site)}>

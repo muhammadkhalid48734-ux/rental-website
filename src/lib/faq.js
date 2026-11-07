@@ -55,7 +55,7 @@ export function buildFaq() {
       a: "Whether you take bookings by text, DMs, phone calls or a notebook, inquiries from the site reach you as an instant alert, and you can keep confirming bookings the way you do now. If you use another booking tool, tell us in the form and we will say honestly whether it fits."
     },
     {
-      q: "How does double-booking protection work?",
+      q: "How does date protection work?",
       a: `A date is blocked when you confirm a booking or when the deposit arrives. Pending requests show as pending and do not block the date, unless you set a ${hold}-hour hold, which blocks it for ${hold} hours. It comes with ${booked.name} and ${paid.name}, and it is ${setup}.`
     },
     {
@@ -122,7 +122,7 @@ export function buildFaq() {
       q: "Is anyone else in my town getting this?",
       a: p.exclusivity && p.exclusivityText
         ? p.exclusivityText
-        : "We can't promise that. We contact rental businesses through their public pages, so another business in your town may hear from us too. If that matters to you, say so in your message and we will answer honestly."
+        : "We can't promise that. We contact businesses through their public pages, so another business in your town may hear from us too. If that matters to you, say so in your message and we will answer honestly."
     }
   ];
 }
