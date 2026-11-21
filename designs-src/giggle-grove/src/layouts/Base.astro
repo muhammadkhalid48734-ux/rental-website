@@ -1,0 +1,29 @@
+---
+import '@fontsource-variable/fredoka/wght.css';
+import '../styles/global.css';
+import fredokaLatin from '@fontsource-variable/fredoka/files/fredoka-latin-wght-normal.woff2?url';
+
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#1a0b2e" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}favicon.svg`} type="image/svg+xml" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <link rel="preload" href={fredokaLatin} as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip-link" href="#top">Skip to content</a>
+    <div class="demo-banner" role="note">
+      Sample design · fictional business · stock photos
+    </div>
+    <slot />
+  </body>
+</html>
