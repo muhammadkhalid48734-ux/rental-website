@@ -3,6 +3,7 @@ import { config } from "../config.js";
 import { convertHours, parseHHMM, studioOffset } from "../lib/hours.js";
 import Val from "./Val.astro";
 import ContactLink from "./ContactLink.astro";
+import SocialLinks from "./SocialLinks.astro";
 import { waOk } from "../lib/contact.js";
 
 const { start, end } = config.supportHours;
@@ -32,6 +33,7 @@ const offset = studioOffset(config.timezone);
       <p class="about__links">
         <ContactLink kind="email" class="btn btn--ghost" label="Email us" />
         {waOk() && <ContactLink kind="whatsapp" class="btn btn--ghost" label="Message on WhatsApp" />}
+        <SocialLinks linkClass="btn btn--ghost" />
       </p>
     </div>
     <div class="hours" data-hours data-offset={offset} data-start={start} data-end={end}>
@@ -49,7 +51,7 @@ const offset = studioOffset(config.timezone);
       ) : (
         <p class="hours__fine">Times appear here once support hours are filled in.</p>
       )}
-      <p class="hours__reply"><strong>Reply time:</strong> <Val v={config.replyTime} />. <strong>Demos:</strong> ready {config.demoTurnaround}.</p>
+      <p class="hours__reply"><strong>Replies:</strong> <Val v={config.replyTime} />. <strong>Demos:</strong> we build a private demo and message you when it&#39;s ready.</p>
     </div>
   </div>
 </section>

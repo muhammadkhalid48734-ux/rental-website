@@ -25,9 +25,10 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | --- | --- |
 | Who you are | `studioName`, `ownerName`, `ownerRole`, `ownerPhoto`, `ownerBio` |
 | Site | `siteUrl` (full `https://` URL, used for canonical, OG tags, sitemap) |
-| Contact | `email`, `whatsapp` (optional, hidden everywhere while empty), `formEndpoint`, `formProvider`. The only contact methods shown are email and Instagram/Facebook messages. |
-| Hours | `timezone` (only used to calculate US times, never shown), `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime`, `demoTurnaround` |
-| Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `setupDays`, `pendingHoldHours`, `paymentMethod`, `smsAvailable`, `addons` |
+| Contact | `email`, `whatsapp` (optional, hidden everywhere while empty), `social.instagram` / `social.facebook` (links in footer, About and next to the form, plus JSON-LD `sameAs`; hidden while empty), `formEndpoint`, `formProvider`. The only contact methods shown are email and Instagram/Facebook messages. |
+| Hours | `timezone` (only used to calculate US times, never shown), `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime` (no time promises) |
+| Sample designs | `designSamples` (name, kind `"demo"` = shown with the owner's permission / `"fictional"`, style, url, desktop, mobile; the card tag comes from `kind`). Screenshot cards right after "How it works", plus a header link. Empty list = hidden. Giggle Grove is a fictional sample served from `public/designs/giggle-grove/`; its source is in `designs-src/giggle-grove/` (edit there, then `npm run build:site` in that folder). |
+| Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
 | Legal | `disputeResolution`, `legalLastUpdated` |
 | Other | `testimonials`, `analytics`, `indexSampleSites` |
@@ -35,7 +36,7 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 Notes:
 
 - **The offer.** The website build is free and customers pay a monthly plan (Get Found, Get Booked, Get Paid) with a minimum term. Change a number in `packages`, `features` or `minimumMonths` and the plan cards, compare table, hero line, FAQ, Terms page, meta description and OG image all update. The terms sentence is built in `src/lib/terms.js` and reused everywhere.
-- **Feature status.** Every entry in `features` has `status: "ready"` (part of the plan from the start) or `"after-signup"`. After-signup features get a clock icon, and the page says "Set up within `setupDays` working days after you sign up". Nothing is ever shown as already running. Everything involving automation, the calendar, deposits and reviews defaults to `"after-signup"`.
+- **Feature status.** Every entry in `features` has `status: "ready"` (part of the plan from the start) or `"after-signup"`. After-signup features get a clock icon, and the page says "Set up after you sign up. We tell you when each part is live." No demo or setup time is promised anywhere. Nothing is ever shown as already running. Everything involving automation, the calendar, deposits and reviews defaults to `"after-signup"`.
 - **Plan inheritance.** A feature's `plan` is the index of the first plan that includes it. Get Booked automatically includes everything in Get Found, and Get Paid everything in Get Booked.
 - **Add-ons.** `addons` is empty because you pay only the monthly plan. If you add entries, an Add-ons list returns, but the "pay only the monthly plan" wording would then no longer be true.
 - **Text reminders.** While `smsAvailable` is `false`, every mention (plan card, compare table, FAQ, Terms) shows "Coming soon". Prices still compute.

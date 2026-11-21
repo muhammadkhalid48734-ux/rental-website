@@ -2,7 +2,8 @@
 import { config } from "../config.js";
 import Val from "./Val.astro";
 import ContactLink from "./ContactLink.astro";
-import { emailOk, waOk } from "../lib/contact.js";
+import SocialLinks from "./SocialLinks.astro";
+import { emailOk, waOk, socialLinks } from "../lib/contact.js";
 ---
 <footer class="site-footer">
   <div class="wrap footer__grid">
@@ -11,6 +12,7 @@ import { emailOk, waOk } from "../lib/contact.js";
       <p class="footer__small">A small remote studio, working online.</p>
       <p><ContactLink kind="email" class="footer__link" /></p>
       {waOk() && <p><ContactLink kind="whatsapp" class="footer__link" label="Message on WhatsApp" /></p>}
+      {socialLinks().length > 0 && <p class="footer__social"><SocialLinks linkClass="footer__link" /></p>}
     </div>
     <nav class="footer__nav" aria-label="Footer">
       <a href="/">Home</a>

@@ -1,0 +1,20 @@
+---
+// Instagram / Facebook links from config.social. A profile with an empty value is not rendered.
+// Renders only the links; the caller wraps them. `sep` goes between links, `linkClass` on each link.
+import { socialLinks } from "../lib/contact.js";
+const { linkClass = "", sep = null } = Astro.props;
+const links = socialLinks();
+---
+{links.map((l, i) => (
+  <>
+    {i > 0 && sep}
+    <a class:list={["social-link", linkClass]} href={l.href} rel="noopener" target="_blank">
+      {l.key === "instagram" ? (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2" /><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" /></svg>
+      ) : (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2" /><path d="M15.5 8H14a2 2 0 0 0-2 2v11M9.5 13h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+      )}
+      <span>{l.label}</span>
+    </a>
+  </>
+))}

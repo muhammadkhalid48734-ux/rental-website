@@ -1,0 +1,39 @@
+---
+// "Sample designs": screenshots of demo designs, each linking to the live sample (new tab).
+// Driven by config.designSamples. Renders nothing while the list is empty.
+import { config } from "../config.js";
+const designs = (config.designSamples || []).filter((d) => d && d.name && d.url && d.desktop);
+// The tag on each card comes from `kind` in config. Unknown or missing kind = no tag.
+const TAGS = {
+  demo: { label: "Demo · shown with permission", cls: "tag--demo" },
+  fictional: { label: "Fictional sample", cls: "tag--sample" }
+};
+const noun = (d) => (d.kind === "demo" ? "demo design" : "sample design");
+---
+{designs.length > 0 && (
+  <section class="section" id="designs" aria-labelledby="designs-title">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Designs</p>
+        <h2 id="designs-title">Sample designs</h2>
+        <p>Demo designs we made for rental businesses, shown with the owners' permission, plus one fictional sample. Your demo is built for your business, with your OK on every photo.</p>
+      </div>
+      <ul class="designs">
+        {designs.map((d) => (
+          <li class="design">
+            <div class="design__visual">
+              <img class="design__desk" src={d.desktop} alt={`Desktop screenshot of the ${d.name} ${noun(d)}`} width="1280" height="800" loading="lazy" decoding="async" />
+              {d.mobile && (
+                <img class="design__phone" src={d.mobile} alt={`Phone screenshot of the ${d.name} ${noun(d)}`} width="390" height="844" loading="lazy" decoding="async" />
+              )}
+            </div>
+            {TAGS[d.kind] && <p class={`tag design__tag ${TAGS[d.kind].cls}`}>{TAGS[d.kind].label}</p>}
+            <h3>{d.name}</h3>
+            <p>{d.style}</p>
+            <a class="btn btn--ghost" href={d.url} target="_blank" rel="noopener noreferrer">View sample<span class="sr-only">: {d.name} (opens in a new tab)</span></a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

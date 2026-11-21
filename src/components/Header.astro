@@ -3,9 +3,11 @@ import { config } from "../config.js";
 import Val from "./Val.astro";
 const { cta = true, home = "/" } = Astro.props;
 // Same links in the desktop bar and the phone menu. Section ids match the page.
+const hasDesigns = (config.designSamples || []).length > 0;
 const links = [
   { label: "Home", href: "/" },
   { label: "How it works", href: "/#how" },
+  ...(hasDesigns ? [{ label: "Sample designs", href: "/#designs" }] : []),
   { label: "Samples", href: "/#samples" },
   { label: "Pricing", href: "/#packages" },
   { label: "About", href: "/#about" },
