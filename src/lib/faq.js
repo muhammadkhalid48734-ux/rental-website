@@ -14,8 +14,6 @@ export function buildFaq() {
   const [found, booked, paid] = config.packages;
   const p = config.policies;
   const n = config.minimumMonths;
-  const hold = config.pendingHoldHours;
-  const setup = `set up within ${config.setupDays} working days after you sign up`;
 
   const smsAnswer = config.smsAvailable
     ? `Yes, when it is set up the right way. Customers tick a box to agree to texts when they book, every text lets them reply STOP to opt out, and we only text about their booking. Text reminders come with ${paid.name}, and provider costs may apply. This is not legal advice, so check the rules for your state.`
@@ -56,7 +54,7 @@ export function buildFaq() {
     },
     {
       q: "How does date protection work?",
-      a: `A date is blocked when you confirm a booking or when the deposit arrives. Pending requests show as pending and do not block the date, unless you set a ${hold}-hour hold, which blocks it for ${hold} hours. It comes with ${booked.name} and ${paid.name}, and it is ${setup}.`
+      a: `A date is blocked when you confirm a booking or when the deposit arrives. Pending requests show as pending and do not block the date. It comes with ${booked.name} and ${paid.name}. It is set up after you sign up, and we tell you when it is live.`
     },
     {
       q: "How do I mark a date as booked?",
@@ -80,15 +78,15 @@ export function buildFaq() {
     },
     {
       q: "What if something breaks, and who answers?",
-      a: `Message us by ${reachUs()}. A person on our small team answers during support hours (shown above), and we reply ${config.replyTime}.`
+      a: `Message us by ${reachUs()}. A person on our small team answers ${config.replyTime} (shown above).`
     },
     {
-      q: "How fast will I have the demo?",
-      a: `Your demo is ready ${config.demoTurnaround}, after you send your page. We message you when it is ready, or sooner if we have a question.`
+      q: "When will I have the demo?",
+      a: "After you send your page, we build a private demo and message you when it's ready. If we have a question first, we ask."
     },
     {
       q: "When is everything set up?",
-      a: `After you sign up, we set up the features in your plan within ${config.setupDays} working days. Until then, the demo only shows how they will look. Nothing on this page is running for you today.`
+      a: "The features in your plan are set up after you sign up. We tell you when each part is live. Until then, the demo only shows how they will look. Nothing on this page is running for you today."
     },
     {
       q: "What do you do with my photos?",

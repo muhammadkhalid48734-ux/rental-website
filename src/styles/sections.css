@@ -521,3 +521,11 @@
 @media (min-width: 900px) { .footer__grid { grid-template-columns: 1.1fr 0.9fr 1.2fr; gap: var(--s-8); } }
 .footer__small .footer__link { display: inline; padding: 0; }
 .site-footer .btn--sun, .site-footer .btn--sun:hover { color: var(--ink); }
+
+/* ---------- Social links ---------- */
+.social-link { display: inline-flex; align-items: center; gap: 8px; }
+.social-link svg { width: 20px; height: 20px; flex: none; }
+.footer__social { display: flex; flex-wrap: wrap; gap: 0 20px; }
+.demo__social { margin: var(--s-4) 0 0; max-width: 30rem; color: #e6ebff; }
+.demo__social .social-link { gap: 6px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.demo__social .social-link svg { width: 18px; height: 18px; }

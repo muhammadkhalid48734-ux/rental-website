@@ -2,7 +2,8 @@
 import { config } from "../config.js";
 import { isTodo } from "../lib/pricing.js";
 import ContactLink from "./ContactLink.astro";
-import { waOk } from "../lib/contact.js";
+import SocialLinks from "./SocialLinks.astro";
+import { waOk, socialLinks } from "../lib/contact.js";
 import { termsFree, noDemo } from "../lib/terms.js";
 const placeholder = isTodo(config.formEndpoint) || !/^https?:\/\//.test(config.formEndpoint);
 const devBanner = import.meta.env.DEV && placeholder;
@@ -16,9 +17,10 @@ const devBanner = import.meta.env.DEV && placeholder;
       <p class="demo__note">Four short fields, about a minute. Your page link is all we need.</p>
       <ol class="demo__next">
         <li>You send your page.</li>
-        <li>We build your private demo. Ready {config.demoTurnaround}.</li>
+        <li>We build your private demo and message you when it&#39;s ready.</li>
         <li>You decide. If you don't like the demo you pay nothing.</li>
       </ol>
+      {socialLinks().length > 0 && <p class="demo__social">Or message me on <SocialLinks sep=" / " /></p>}
     </div>
 
     <div class="demo__card">
@@ -28,7 +30,7 @@ const devBanner = import.meta.env.DEV && placeholder;
         </div>
       )}
 
-      <form id="demo-form" novalidate data-endpoint={config.formEndpoint} data-placeholder={placeholder ? "1" : "0"} data-turnaround={config.demoTurnaround}>
+      <form id="demo-form" novalidate data-endpoint={config.formEndpoint} data-placeholder={placeholder ? "1" : "0"}>
         <div class="form__errors" data-errors role="alert" tabindex="-1" hidden></div>
 
         <div class="field">
@@ -72,7 +74,7 @@ const devBanner = import.meta.env.DEV && placeholder;
 
       <div class="form__result form__result--ok" data-success tabindex="-1" hidden>
         <h3>Thanks. Got it.</h3>
-        <p>We'll reply with your demo or a question {config.demoTurnaround}.</p>
+        <p>We'll build your private demo and message you when it's ready. If we have a question first, we'll ask.</p>
       </div>
 
       <div class="form__result form__result--bad" data-failure tabindex="-1" hidden>

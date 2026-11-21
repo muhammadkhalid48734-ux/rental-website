@@ -27,7 +27,7 @@ export const config = {
   // ---- Where the site lives ----------------------------------------------
   // Full URL with https://, no trailing slash. Needed for canonical links,
   // OG tags and the sitemap. Until you set it, the build uses a stand-in.
-  siteUrl: "https://hopbook.vercel.app", // update if your Vercel URL or custom domain is different
+  siteUrl: "https://hopbook.online",
 
   // ---- How people reach you ----------------------------------------------
   // The only contact methods shown on the page are email and Instagram/Facebook messages.
@@ -35,6 +35,12 @@ export const config = {
   // WhatsApp is hidden everywhere (links, buttons, FAQ, form fallback, JSON-LD) while this is empty.
   // To turn it on, set country code + digits only, e.g. "15551234567".
   whatsapp: "",
+  // Public social profiles. Shown as links in the footer, the About section and next to the
+  // contact form, and listed as sameAs in the JSON-LD. An empty value is hidden everywhere.
+  social: {
+    instagram: "https://www.instagram.com/haseebk293/",
+    facebook: "https://www.facebook.com/profile.php?id=61583590811537"
+  },
   // Contact form endpoint (Formspree, Getform, Basin...). Must accept a JSON POST.
   formEndpoint: "https://formspree.io/f/mrpprvln",
   formProvider: "Formspree", // shown on the privacy page
@@ -48,21 +54,13 @@ export const config = {
     start: "20:00", // 24-hour HH:MM in `timezone`. Ends after midnight, that is fine.
     end: "02:00"
   },
-  // How quickly you reply to a normal message during support hours. Shown exactly as written.
-  replyTime: "within a few hours during support hours",
-  // Used word for word in the hero, "How it works", the FAQ and the form success message.
-  demoTurnaround:
-    "usually within the hour during our support hours, otherwise by the next morning",
+  // When you reply to messages. Shown exactly as written. Do not promise a time here.
+  replyTime: "during support hours",
 
   // ---- Offer: free website build, monthly plans ---------------------------
   currency: "$",
   // Minimum number of monthly payments. Used in "3-month minimum, then cancel anytime" everywhere.
   minimumMonths: 3,
-  // Working days between sign-up and everything being set up. Shown wherever a feature is
-  // marked "after-signup". You have not given a number yet, so it stays a placeholder.
-  setupDays: "5", // working days from sign-up until everything in the plan is set up
-  // How long a pending request can hold a date if the owner turns the hold on (FAQ + sample).
-  pendingHoldHours: 24,
   paymentMethod: "PayPal", // shown as "Payment is by PayPal."
   // Set true once text reminders really work. While false, every place that
   // mentions text reminders shows a "Coming soon" tag and the FAQ says so.
@@ -100,7 +98,8 @@ export const config = {
   // The plan cards and the compare table are both built from this list.
   //
   // status: "ready"        = part of the plan from the start
-  //         "after-signup" = set up after the customer signs up. The page says so and never shows
+  //         "after-signup" = set up after the customer signs up. The page says so (no time is
+  //                          promised: "We tell you when each part is live") and never shows
   //                          these as already running. Default for anything involving automation,
   //                          calendar, deposits, reviews.
   features: [

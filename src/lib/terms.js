@@ -7,4 +7,4 @@ export const termsOwn = () =>
   "Your domain, photos and text always belong to you, and if you leave we send you your site files.";
 export const termsFull = () => `${termsFree()} ${termsOwn()}`;
 export const noDemo = () => "If you don't like the demo you pay nothing.";
-export const setupSentence = () => `Set up within ${config.setupDays} working days after you sign up.`;
+export const setupSentence = () => "Set up after you sign up. We tell you when each part is live.";
