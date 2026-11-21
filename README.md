@@ -27,7 +27,7 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | Site | `siteUrl` (full `https://` URL, used for canonical, OG tags, sitemap) |
 | Contact | `email`, `whatsapp` (optional, hidden everywhere while empty), `social.instagram` / `social.facebook` (links in footer, About and next to the form, plus JSON-LD `sameAs`; hidden while empty), `formEndpoint`, `formProvider`. The only contact methods shown are email and Instagram/Facebook messages. |
 | Hours | `timezone` (only used to calculate US times, never shown), `supportHours` (`daysLabel`, `start`, `end` as `"09:00"`), `replyTime` (no time promises) |
-| Sample designs | `designSamples` (name, style, url, desktop, mobile). Screenshot cards right after "How it works", plus a header link. Empty list = hidden. Giggle Grove is a fictional sample served from `public/designs/giggle-grove/`; its source is in `designs-src/giggle-grove/` (edit there, then `npm run build:site` in that folder). |
+| Sample designs | `designSamples` (name, kind `"demo"` = shown with the owner's permission / `"fictional"`, style, url, desktop, mobile; the card tag comes from `kind`). Screenshot cards right after "How it works", plus a header link. Empty list = hidden. Giggle Grove is a fictional sample served from `public/designs/giggle-grove/`; its source is in `designs-src/giggle-grove/` (edit there, then `npm run build:site` in that folder). |
 | Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
 | Legal | `disputeResolution`, `legalLastUpdated` |

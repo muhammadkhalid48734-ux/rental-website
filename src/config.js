@@ -161,10 +161,15 @@ export const config = {
   // ---- Sample designs ------------------------------------------------------
   // Screenshot cards in the "Sample designs" section, each linking to a live sample.
   // desktop = 1280x800 and mobile = 390x844 screenshots in /public/samples/.
+  // kind sets the tag on the card:
+  //   "demo"      = a demo made for a real rental business, shown with the owner's permission
+  //                 (tag "Demo · shown with permission"). Only use it when you have that permission.
+  //   "fictional" = a made-up business (tag "Fictional sample").
   // Empty list = the section and its menu link do not render.
   designSamples: [
     {
       name: "Magic Inflatable Party Rentals",
+      kind: "demo",
       style: "Bright, family bounce house style",
       url: "https://magic-party-hop.base44.app/",
       desktop: "/samples/design-bounce-desktop.webp",
@@ -172,6 +177,7 @@ export const config = {
     },
     {
       name: "Epic Waterslide Rentals",
+      kind: "demo",
       style: "Dark water slide style with a date checker",
       url: "https://epic-splash-rentals.base44.app/",
       desktop: "/samples/design-waterslide-desktop.webp",
@@ -179,6 +185,7 @@ export const config = {
     },
     {
       name: "Giggle Grove Party Rentals",
+      kind: "fictional",
       style: "Playful purple kids party style",
       url: "/designs/giggle-grove/",
       desktop: "/samples/design-giggle-grove-desktop.webp",
