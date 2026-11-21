@@ -72,7 +72,7 @@ strong { font-weight: 700; }
 .mono { font-family: var(--font-mono); font-weight: 500; letter-spacing: -0.01em; }
 
 :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
-.on-dark :focus-visible, .sample-ribbon :focus-visible { outline-color: var(--sun); }
+.on-dark :focus-visible { outline-color: var(--sun); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

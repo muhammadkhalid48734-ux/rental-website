@@ -34,6 +34,15 @@ export default defineConfig({
   site: real ? config.siteUrl.replace(/\/$/, "") : "https://example.com",
   trailingSlash: "ignore",
   build: { format: "directory", inlineStylesheets: "always" },
-  integrations: [buildGuards(), sitemap({ filter: (page) => config.indexSampleSites || !page.includes("/samples/") })],
+  integrations: [buildGuards(), sitemap()],
+  // The old in-site sample pages were removed. Their links go to the Sample designs section.
+  // (vercel.json does the same as real HTTP redirects on Vercel; these pages are the fallback elsewhere.)
+  // Only these exact paths: /samples/design-*.webp screenshots must keep working.
+  redirects: {
+    "/samples/brightwick-bounce": "/#sample-designs",
+    "/samples/hopscotch-hollow-rentals": "/#sample-designs",
+    "/samples/pennant-party-co": "/#sample-designs",
+    "/samples": "/#sample-designs"
+  },
   devToolbar: { enabled: false }
 });

@@ -1,8 +1,19 @@
 ---
-// A static, decorative miniature of a sample site, drawn in HTML so it costs no image bytes.
+// A static, decorative miniature of a booking site (hero phone mockup), drawn in HTML so it costs
+// no image bytes. The business is FICTIONAL ("Brightwick Bounce"); its data lives here.
 import Inflatable from "./Inflatable.astro";
-import { samples } from "../samples/data.js";
-const { sample = samples[0], showCal = true } = Astro.props;
+const brightwick = {
+  name: "Brightwick Bounce",
+  heroLine: "Bounce houses for your next backyard party",
+  hero: "castle",
+  theme: { primary: "#2447d6", dark: "#12236b", accent: "#ffc83d", soft: "#eef2ff" },
+  items: [
+    { name: "Classic Castle", price: 149 },
+    { name: "Slide Combo", price: 199 },
+    { name: "Obstacle Run", price: 229 }
+  ]
+};
+const { sample = brightwick, showCal = true } = Astro.props;
 const t = sample.theme;
 const booked = new Set([3, 4, 10, 11, 12, 17, 18, 24, 25]);
 const cells = Array.from({ length: 28 }, (_, i) => i + 1);
@@ -31,5 +42,5 @@ const style = `--p:${t.primary};--pd:${t.dark};--a:${t.accent};--sf:${t.soft};--
     ))}
   </div>
   {showCal && <span class="mini__book">Book Now</span>}
-  <span class="mini__sash">Sample site</span>
+  <span class="mini__sash">Sample</span>
 </div>

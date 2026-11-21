@@ -31,7 +31,7 @@ Anything starting with `TODO` is a placeholder. Fill them in and rebuild. Everyt
 | Offer | `packages` (name, monthly price, edit minutes), `features`, `minimumMonths`, `paymentMethod`, `smsAvailable`, `addons` |
 | Policies | `policies.stopPaying`, `outreachDisclosure`, `markBooked`, `invoiceAgreement`, `exclusivity` |
 | Legal | `disputeResolution`, `legalLastUpdated` |
-| Other | `testimonials`, `analytics`, `indexSampleSites` |
+| Other | `testimonials`, `analytics` |
 
 Notes:
 
@@ -43,9 +43,9 @@ Notes:
 - **Testimonials.** The section renders nothing until `testimonials` has entries with `permission: true`.
 - **Support hours.** Only US Eastern, Central, Mountain and Pacific times are shown, never the zone the hours are set in. They are recalculated in the visitor's browser for today's date (daylight saving included), with a build-time fallback if JavaScript is off.
 - **Analytics.** Off by default. Set `analytics.enabled: true`, plus `domain` (and `scriptSrc` if you don't use Plausible), for a cookie-free script. The Privacy page text changes to match.
-- **Sample sites.** `/samples/...` pages ask search engines not to index them (they are made-up businesses). Set `indexSampleSites: true` to allow it.
+- **Old sample pages.** The in-site `/samples/<name>/` pages were removed. `vercel.json` (and `redirects` in `astro.config.mjs` as a fallback) send those old links to `/#sample-designs`. `public/samples/` now only holds the Sample designs screenshots.
 
-Sample site content (fictional names, items, prices, FAQs) is in `src/samples/data.js`.
+The hero phone mockup and "See what your customers see" use a fictional business, Brightwick Bounce. Its mockup data is in `src/components/MiniSite.astro`.
 
 ## The contact form
 
@@ -82,7 +82,7 @@ Self-hosted fonts (Bricolage Grotesque, Figtree, DM Mono for prices) with `font-
 ## Before you launch
 
 1. Replace every `TODO` in `src/config.js`.
-2. Run a trademark and web search on the three sample names.
+2. Run a trademark and web search on the fictional names (Brightwick Bounce, Giggle Grove Party Rentals).
 3. Have the Privacy and Terms drafts reviewed.
 4. Confirm that every promise on the page is one you can keep (turnaround, set-up time, what the 3-month minimum means if someone leaves early, how a booking gets confirmed).
 5. Submit the form once on the live site to confirm it reaches your inbox.

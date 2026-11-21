@@ -27,7 +27,7 @@ const glance = [
         <p class="hero__lead">{fromLine()}</p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#demo" data-scroll-form>Get my free demo</a>
-          <a class="link-strong" href="#samples">See sample sites</a>
+          {(config.designSamples || []).length > 0 && <a class="link-strong" href="#sample-designs">See sample designs</a>}
         </div>
         <p class="hero__fine"><strong>Free private demo. {termsFree()}</strong></p>
         <p class="hero__fine hero__fine--2">{noDemo()} We build a private demo and message you when it&#39;s ready.</p>

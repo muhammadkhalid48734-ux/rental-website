@@ -26,7 +26,7 @@ export async function GET() {
     // copy
     h("div", { position: "absolute", left: 64, top: 64, width: 700, flexDirection: "column" }, [
       h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 28, color: "#12236b", marginBottom: 28 }, "Booking websites for bounce house, party rental and event decor businesses"),
-      h("div", { fontFamily: "Bricolage Grotesque", fontWeight: 800, fontSize: 76, lineHeight: 1.02, letterSpacing: -2, color: "#0f1a33" }, heroHeadline),
+      h("div", { fontFamily: "Bricolage Grotesque", fontWeight: 800, fontSize: 64, lineHeight: 1.04, letterSpacing: -1.6, color: "#0f1a33" }, heroHeadline),
     ]),
     h("div", { position: "absolute", left: 64, bottom: 56, width: 700, flexDirection: "column" }, [
       h("div", { fontFamily: "Figtree", fontWeight: 700, fontSize: 30, color: "#0f1a33" }, fromLine()),
