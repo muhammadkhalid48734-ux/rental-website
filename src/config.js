@@ -193,11 +193,6 @@ export const config = {
     }
   ],
 
-  // ---- Sample sites ---------------------------------------------------------
-  // The three /samples/ pages are made-up businesses. By default they ask search engines not to
-  // index them, so nobody finds a fictional business in search results. Set true to allow indexing.
-  indexSampleSites: false,
-
   // ---- Legal pages --------------------------------------------------------
   legalLastUpdated: "November 4, 2026",
   disputeResolution: "Before any formal dispute, both sides try to resolve it by email within 30 days."

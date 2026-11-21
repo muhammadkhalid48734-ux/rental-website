@@ -17,7 +17,7 @@ import { emailOk, waOk, socialLinks } from "../lib/contact.js";
     <nav class="footer__nav" aria-label="Footer">
       <a href="/">Home</a>
       <a href="/#how">How it works</a>
-      <a href="/#samples">Samples</a>
+      {(config.designSamples || []).length > 0 && <a href="/#sample-designs">Sample designs</a>}
       <a href="/#packages">Pricing</a>
       <a href="/#about">About</a>
       <a href="/#faq">FAQ</a>

@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/samples",
+      "destination": "/#sample-designs",
+      "permanent": true
+    },
+    {
+      "source": "/samples/",
+      "destination": "/#sample-designs",
+      "permanent": true
+    },
+    {
+      "source": "/samples/:slug(brightwick-bounce|hopscotch-hollow-rentals|pennant-party-co)",
+      "destination": "/#sample-designs",
+      "permanent": true
+    },
+    {
+      "source": "/samples/:slug(brightwick-bounce|hopscotch-hollow-rentals|pennant-party-co)/",
+      "destination": "/#sample-designs",
+      "permanent": true
+    }
+  ]
+}

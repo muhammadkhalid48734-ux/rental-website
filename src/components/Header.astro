@@ -7,8 +7,7 @@ const hasDesigns = (config.designSamples || []).length > 0;
 const links = [
   { label: "Home", href: "/" },
   { label: "How it works", href: "/#how" },
-  ...(hasDesigns ? [{ label: "Sample designs", href: "/#designs" }] : []),
-  { label: "Samples", href: "/#samples" },
+  ...(hasDesigns ? [{ label: "Sample designs", href: "/#sample-designs" }] : []),
   { label: "Pricing", href: "/#packages" },
   { label: "About", href: "/#about" },
   { label: "FAQ", href: "/#faq" }
@@ -64,13 +63,13 @@ const links = [
       if (e.key === "Escape" && !menu.hidden) { setOpen(false); btn.focus(); }
     });
     document.addEventListener("click", (e) => { if (!menu.hidden && !e.target.closest("[data-header]")) setOpen(false); });
-    window.matchMedia("(min-width: 900px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
+    window.matchMedia("(min-width: 1000px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
 
     // Mark the link for the section on screen (home page only).
     const anchors = [...header.querySelectorAll("a[href^='/#']")];
     const byId = (id) => anchors.filter((a) => a.getAttribute("href") === `/#${id}`);
     const home = [...header.querySelectorAll("a[href='/']")].filter((a) => !a.classList.contains("brand"));
-    const ids = ["how", "samples", "packages", "about", "faq"];
+    const ids = ["how", "sample-designs", "packages", "about", "faq"];
     const targets = ids.map((id) => document.getElementById(id)).filter(Boolean);
     if (targets.length && "IntersectionObserver" in window) {
       const mark = (id) => {
