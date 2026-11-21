@@ -158,6 +158,34 @@ export const config = {
     scriptSrc: "https://plausible.io/js/script.js"
   },
 
+  // ---- Sample designs ------------------------------------------------------
+  // Screenshot cards in the "Sample designs" section, each linking to a live sample.
+  // desktop = 1280x800 and mobile = 390x844 screenshots in /public/samples/.
+  // Empty list = the section and its menu link do not render.
+  designSamples: [
+    {
+      name: "Magic Inflatable Party Rentals",
+      style: "Bright, family bounce house style",
+      url: "https://magic-party-hop.base44.app/",
+      desktop: "/samples/design-bounce-desktop.webp",
+      mobile: "/samples/design-bounce-mobile.webp"
+    },
+    {
+      name: "Epic Waterslide Rentals",
+      style: "Dark water slide style with a date checker",
+      url: "https://epic-splash-rentals.base44.app/",
+      desktop: "/samples/design-waterslide-desktop.webp",
+      mobile: "/samples/design-waterslide-mobile.webp"
+    },
+    {
+      name: "Giggle Grove Party Rentals",
+      style: "Playful purple kids party style",
+      url: "/designs/giggle-grove/",
+      desktop: "/samples/design-giggle-grove-desktop.webp",
+      mobile: "/samples/design-giggle-grove-mobile.webp"
+    }
+  ],
+
   // ---- Sample sites ---------------------------------------------------------
   // The three /samples/ pages are made-up businesses. By default they ask search engines not to
   // index them, so nobody finds a fictional business in search results. Set true to allow indexing.

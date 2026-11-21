@@ -1,0 +1,32 @@
+---
+// "Sample designs": screenshots of demo designs, each linking to the live sample (new tab).
+// Driven by config.designSamples. Renders nothing while the list is empty.
+import { config } from "../config.js";
+const designs = (config.designSamples || []).filter((d) => d && d.name && d.url && d.desktop);
+---
+{designs.length > 0 && (
+  <section class="section" id="designs" aria-labelledby="designs-title">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Designs</p>
+        <h2 id="designs-title">Sample designs</h2>
+        <p>These are sample designs for made-up businesses. Photos are stock images. Your demo is built for your business, with your OK on every photo.</p>
+      </div>
+      <ul class="designs">
+        {designs.map((d) => (
+          <li class="design">
+            <div class="design__visual">
+              <img class="design__desk" src={d.desktop} alt={`Desktop screenshot of the ${d.name} sample design`} width="1280" height="800" loading="lazy" decoding="async" />
+              {d.mobile && (
+                <img class="design__phone" src={d.mobile} alt={`Phone screenshot of the ${d.name} sample design`} width="390" height="844" loading="lazy" decoding="async" />
+              )}
+            </div>
+            <h3>{d.name}</h3>
+            <p>{d.style}</p>
+            <a class="btn btn--ghost" href={d.url} target="_blank" rel="noopener noreferrer">View sample<span class="sr-only">: {d.name} (opens in a new tab)</span></a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
